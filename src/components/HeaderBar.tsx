@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   headerBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 10,
     backgroundColor: '#FFFFFF',
   },
   dayButton: {
