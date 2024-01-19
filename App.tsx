@@ -1,4 +1,3 @@
-// App.tsx
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import HeaderBar from './src/components/HeaderBar';
