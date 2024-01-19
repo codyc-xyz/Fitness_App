@@ -1,13 +1,24 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 const HeaderBar = () => {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const [selectedDay, setSelectedDay] = useState('');
+
+  useEffect(() => {
+    const today = new Date().getDay();
+    setSelectedDay(days[today]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View style={styles.headerBar}>
       {days.map(day => (
-        <TouchableOpacity key={day} style={styles.dayButton}>
+        <TouchableOpacity
+          key={day}
+          style={[styles.dayButton, selectedDay === day && styles.selectedDay]}
+          onPress={() => setSelectedDay(day)}>
           <Text style={styles.dayText}>{day}</Text>
         </TouchableOpacity>
       ))}
@@ -32,6 +43,9 @@ const styles = StyleSheet.create({
   },
   dayText: {
     color: '#000',
+  },
+  selectedDay: {
+    backgroundColor: '#E0E0E0',
   },
 });
 
