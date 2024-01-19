@@ -1,16 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
+import Workout from '../types/Workout';
 
 type WorkoutViewProps = {
   day: string;
 };
-
-interface Workout {
-  id: number;
-  name: string;
-  sets: number;
-  reps: number;
-}
 
 const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
