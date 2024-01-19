@@ -8,7 +8,7 @@ const HeaderBar = () => {
 
   useEffect(() => {
     const today = new Date().getDay() - 1;
-    setSelectedDay(days[today]);
+    setSelectedDay(days[Math.max(0, today)]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
