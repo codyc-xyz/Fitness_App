@@ -1,4 +1,5 @@
 import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
+import createTables from './createTables';
 
 const openDatabase = (): Promise<SQLiteDatabase> => {
   return new Promise((resolve, reject) => {
@@ -9,6 +10,7 @@ const openDatabase = (): Promise<SQLiteDatabase> => {
       },
       db => {
         console.log('SQLite Database Connected');
+        createTables(db);
         resolve(db);
       },
       error => {
