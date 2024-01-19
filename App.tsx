@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import HeaderBar from './src/components/HeaderBar'; // Import HeaderBar
-import Main from './src/components/Main'; // Import Main
+import HeaderBar from './src/components/HeaderBar';
+import Main from './src/components/Main';
 
 function App(): React.JSX.Element {
   return (

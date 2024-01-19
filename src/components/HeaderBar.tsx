@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 const HeaderBar = () => {
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const [selectedDay, setSelectedDay] = useState('');
 
   useEffect(() => {
-    const today = new Date().getDay();
+    const today = new Date().getDay() - 1;
     setSelectedDay(days[today]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
