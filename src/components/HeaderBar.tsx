@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 
-const HeaderBar = () => {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+interface HeaderBarProps {
+  days: string[];
+  selectedDay: string;
+  setSelectedDay: (day: string) => void;
+}
 
-  const [selectedDay, setSelectedDay] = useState('');
-
-  useEffect(() => {
-    const today = new Date().getDay() - 1;
-    setSelectedDay(days[Math.max(0, today)]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+const HeaderBar: React.FC<HeaderBarProps> = ({
+  days,
+  selectedDay,
+  setSelectedDay,
+}) => {
   return (
     <View style={styles.headerBar}>
       {days.map(day => (
