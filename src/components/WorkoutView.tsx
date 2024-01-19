@@ -13,7 +13,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
     loadWorkoutsForDay(day);
   }, [day]);
 
-  const loadWorkoutsForDay = (day: string) => {
+  const loadWorkoutsForDay = day => {
     const newWorkouts: Workout[] = []; // Replace with the actual logic to load workouts
     setWorkouts(newWorkouts);
   };

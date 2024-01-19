@@ -27,7 +27,7 @@ const loadWorkoutsForDay: LoadWorkoutsForDayFunction = (
         }
         setWorkouts(workouts);
       },
-      (tx, error: SQLError) => console.log('Error: ' + error.message), // Corrected error callback
+      (tx, error: SQLError) => console.log('Error: ' + error.message),
     );
   });
 };
