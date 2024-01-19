@@ -1,13 +1,11 @@
-// DatabaseContext.tsx
 import React, {createContext, useContext} from 'react';
 import openDatabase from '../database/SQLiteDB';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
 
 const DatabaseContext = createContext<SQLiteDatabase | null>(null);
 
-// Define a type for your component's props
 type DatabaseProviderProps = {
-  children: React.ReactNode; // Explicitly type the children prop
+  children: React.ReactNode;
 };
 
 export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({
