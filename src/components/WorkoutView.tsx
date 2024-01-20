@@ -54,6 +54,10 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
     }
   };
 
+  const removeWorkoutInput = () => {
+    setWorkoutInputs(currentWorkouts => currentWorkouts.slice(0, -1));
+  };
+
   const handleWorkoutChange = (
     index: number,
     field: keyof WorkoutInput,
@@ -87,6 +91,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
           key={index}
           workoutInput={workout}
           onChange={(field, value) => handleWorkoutChange(index, field, value)}
+          onRemove={removeWorkoutInput}
         />
       ))}
       <Button title="+" onPress={addNewWorkoutInput} />

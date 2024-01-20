@@ -1,46 +1,59 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import WorkoutInput from '../types/WorkoutInput';
 
 type WorkoutCardProps = {
   workoutInput: WorkoutInput;
   onChange: (field: keyof WorkoutInput, value: string) => void;
+  onRemove: () => void;
 };
 
 const WorkoutInputCard: React.FC<WorkoutCardProps> = ({
   workoutInput,
   onChange,
+  onRemove,
 }) => {
   return (
     <View style={styles.card}>
-      <View style={styles.inputRow}>
-        <TextInput
-          style={styles.input}
-          placeholder="Workout Name"
-          value={workoutInput.name}
-          onChangeText={text => onChange('name', text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Sets"
-          value={workoutInput.sets.toString()}
-          onChangeText={text => onChange('sets', text)}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Reps"
-          value={workoutInput.reps.toString()}
-          onChangeText={text => onChange('reps', text)}
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={styles.circleRow}>
-        {Array.from({length: Math.min(workoutInput.sets, 5)}, (_, i) => (
-          <View key={i} style={styles.circle}>
-            <Text style={styles.circleText}>{i + 1}</Text>
+      <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
+        <Text style={styles.removeButtonText}>X</Text>
+      </TouchableOpacity>
+      <View style={styles.row}>
+        <View style={styles.nameContainer}>
+          <Text style={styles.placeholder}>Workout Name</Text>
+          <TextInput
+            style={[styles.input, styles.textInput]}
+            value={workoutInput.name}
+            onChangeText={text => onChange('name', text)}
+          />
+        </View>
+        <View style={styles.setsRepsContainer}>
+          <View style={styles.setsReps}>
+            <Text style={styles.placeholder}>Sets</Text>
+            <TextInput
+              style={[styles.input, styles.numericInput]}
+              value={workoutInput.sets.toString()}
+              onChangeText={text => onChange('sets', text)}
+              keyboardType="numeric"
+            />
           </View>
-        ))}
+          <View style={styles.setsReps}>
+            <Text style={styles.placeholder}>Reps</Text>
+            <TextInput
+              style={[styles.input, styles.numericInput]}
+              value={workoutInput.reps.toString()}
+              onChangeText={text => onChange('reps', text)}
+              keyboardType="numeric"
+            />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -48,6 +61,7 @@ const WorkoutInputCard: React.FC<WorkoutCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
+    position: 'relative',
     marginBottom: 10,
     padding: 15,
     borderWidth: 1,
@@ -60,38 +74,51 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-  inputRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 15,
+  removeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 5,
+  },
+  removeButtonText: {
+    fontSize: 18,
+    color: '#333',
   },
   input: {
-    flex: 1,
-    marginRight: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
     paddingHorizontal: 10,
-    height: 40,
     backgroundColor: 'white',
   },
-  circleRow: {
+  textInput: {
+    height: 40,
+    marginBottom: 10,
+    flex: 1, // Adjusted for full width within its container
+  },
+  numericInput: {
+    height: 40,
+    width: '50%', // Adjusted for half width of its container
+    marginBottom: 10,
+  },
+  placeholder: {
+    marginBottom: 5,
+  },
+  row: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  circle: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: '#4CAF50',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 5,
+  nameContainer: {
+    flex: 0.7, // Takes up half of the space
+    paddingRight: 8, // Add some spacing
   },
-  circleText: {
-    color: 'white',
+  setsRepsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '25%', // Sets the width to be 1/4 of the parent container
+  },
+  setsReps: {
+    alignItems: 'center',
   },
 });
-
 export default WorkoutInputCard;
