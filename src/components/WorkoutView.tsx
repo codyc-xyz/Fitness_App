@@ -27,31 +27,6 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
     setWorkoutInputs([]);
   }, [day]);
 
-  const getNextMonday = (): Date => {
-    const now = new Date();
-    now.setDate(now.getDate() + ((1 + 7 - now.getDay()) % 7));
-    now.setHours(0, 0, 0, 0);
-    return now;
-  };
-
-  const resetWeeklyProgress = () => {
-    // Reset progress logic here
-    // Schedule next reset
-    scheduleWeeklyReset();
-  };
-
-  useEffect(() => {
-    const timeoutId = scheduleWeeklyReset();
-    return () => clearTimeout(timeoutId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const scheduleWeeklyReset = () => {
-    const nextMonday = getNextMonday();
-    const msUntilNextMonday = nextMonday.getTime() - new Date().getTime();
-    return setTimeout(resetWeeklyProgress, msUntilNextMonday);
-  };
-
   const addNewWorkoutInput = () => {
     if (workoutInputs.length < 10) {
       setWorkoutInputs([...workoutInputs, {name: '', sets: 0, reps: 0}]);
