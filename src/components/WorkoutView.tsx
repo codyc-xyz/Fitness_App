@@ -16,13 +16,16 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   const [workoutInputs, setWorkoutInputs] = useState<WorkoutInput[]>([]);
 
   const db = useDatabase();
-  console.log('MyComponent rendered. DB:', db);
 
   useEffect(() => {
     if (db) {
       loadWorkoutsForDay(db, day, setWorkouts);
     }
   }, [db, day]);
+
+  useEffect(() => {
+    setWorkoutInputs([]);
+  }, [day]);
 
   const getNextMonday = (): Date => {
     const now = new Date();
