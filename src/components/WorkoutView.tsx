@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Button, StyleSheet} from 'react-native';
+import {ScrollView, View, Button, StyleSheet} from 'react-native';
 import Workout from '../types/Workout';
+import WorkoutInput from '../types/WorkoutInput';
 import {useDatabase} from '../contexts/DatabaseContext';
 import loadWorkoutsForDay from '../database/loadWorkoutsForDay';
 import addWorkout from '../database/addWorkouts';
 import WorkoutInputCard from './WorkoutInputCard';
-import WorkoutInput from '../types/WorkoutInput';
+import WorkoutCard from './WorkoutCard';
 
 type WorkoutViewProps = {
   day: string;
@@ -64,18 +65,30 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   };
 
   return (
-    <View style={styles.container}>
-      {workoutInputs.map((workout, index) => (
-        <WorkoutInputCard
-          key={index}
-          workoutInput={workout}
-          onChange={(field, value) => handleWorkoutChange(index, field, value)}
-          onRemove={removeWorkoutInput}
-        />
-      ))}
-      <Button title="+" onPress={addNewWorkoutInput} />
-      <Button title="Save Workouts" onPress={saveWorkouts} />
-    </View>
+    <ScrollView style={styles.container}>
+      <View>
+        {workouts.map((workout, index) => (
+          <WorkoutCard
+            key={index}
+            name={workout.name}
+            sets={workout.sets}
+            reps={workout.reps}
+          />
+        ))}
+        {workoutInputs.map((workout, index) => (
+          <WorkoutInputCard
+            key={index}
+            workoutInput={workout}
+            onChange={(field, value) =>
+              handleWorkoutChange(index, field, value)
+            }
+            onRemove={() => removeWorkoutInput()}
+          />
+        ))}
+        <Button title="+" onPress={addNewWorkoutInput} />
+        <Button title="Save Workouts" onPress={saveWorkouts} />
+      </View>
+    </ScrollView>
   );
 };
 
