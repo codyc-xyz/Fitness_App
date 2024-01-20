@@ -1,6 +1,7 @@
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
 
 const createTables = (db: SQLiteDatabase) => {
+  console.log('Creating tables...');
   db.transaction(tx => {
     tx.executeSql(
       'CREATE TABLE IF NOT EXISTS workouts (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, sets INTEGER, reps INTEGER, day TEXT);',

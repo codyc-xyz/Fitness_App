@@ -16,12 +16,16 @@ export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({
   React.useEffect(() => {
     openDatabase()
       .then(database => {
+        console.log('Database set in provider', database);
+
         setDb(database);
       })
       .catch(error => {
         console.error('Failed to open database:', error);
       });
   }, []);
+
+  console.log('DatabaseProvider rendering, DB status:', db);
 
   return (
     <DatabaseContext.Provider value={db}>{children}</DatabaseContext.Provider>

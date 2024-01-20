@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    zIndex: 1, // Ensuring it's above all other elements
+    zIndex: 1,
     padding: 4,
   },
   removeButtonText: {
@@ -84,36 +84,36 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   nameContainer: {
-    flex: 1, // Allocate flex space for the workout name
-    paddingRight: 5, // Spacing between name input and sets/reps
+    flex: 1,
+    paddingRight: 5,
   },
   setsRepsContainer: {
-    flex: 0.5, // Allocate flex space for sets and reps
+    flex: 0.5,
     flexDirection: 'row',
-    justifyContent: 'flex-end', // Align to the end of the parent container
+    justifyContent: 'flex-end',
   },
   setsReps: {
     alignItems: 'center',
-    marginLeft: 5, // Space between sets and reps inputs
+    marginLeft: 5,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
     paddingHorizontal: 10,
-    paddingVertical: 5, // Adjust vertical padding for aesthetics
+    paddingVertical: 5,
     backgroundColor: 'white',
   },
   textInput: {
-    height: 35, // Adjust height for aesthetics
+    height: 35,
   },
   numericInput: {
-    width: 50, // Set a fixed width for numeric inputs
-    textAlign: 'center', // Center the text inside the input
+    width: 50,
+    textAlign: 'center',
   },
   placeholder: {
     marginBottom: 5,
-    color: '#999', // Lighten the placeholder text color
+    color: '#999',
   },
 });
 

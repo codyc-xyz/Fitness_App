@@ -2,12 +2,10 @@ import SQLite, {SQLiteDatabase} from 'react-native-sqlite-storage';
 import createTables from './createTables';
 
 const openDatabase = (): Promise<SQLiteDatabase> => {
+  console.log('Attempting to open database...');
   return new Promise((resolve, reject) => {
     SQLite.openDatabase(
-      {
-        name: 'FitnessAppDB',
-        location: 'default',
-      },
+      {name: 'FitnessAppDB', location: 'default'},
       db => {
         console.log('SQLite Database Connected');
         createTables(db);

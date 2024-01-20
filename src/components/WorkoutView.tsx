@@ -16,6 +16,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   const [workoutInputs, setWorkoutInputs] = useState<WorkoutInput[]>([]);
 
   const db = useDatabase();
+  console.log('MyComponent rendered. DB:', db);
 
   useEffect(() => {
     if (db) {
