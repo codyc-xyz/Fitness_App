@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 import WorkoutInput from '../types/WorkoutInput';
 
@@ -61,64 +60,61 @@ const WorkoutInputCard: React.FC<WorkoutCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    position: 'relative',
     marginBottom: 10,
-    padding: 15,
+    padding: 10,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
     backgroundColor: '#f8f8f8',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
   },
   removeButton: {
     position: 'absolute',
-    top: 10,
-    right: 10,
-    padding: 5,
+    top: 0,
+    right: 0,
+    zIndex: 1, // Ensuring it's above all other elements
+    padding: 4,
   },
   removeButtonText: {
     fontSize: 18,
     color: '#333',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  nameContainer: {
+    flex: 1, // Allocate flex space for the workout name
+    paddingRight: 5, // Spacing between name input and sets/reps
+  },
+  setsRepsContainer: {
+    flex: 0.5, // Allocate flex space for sets and reps
+    flexDirection: 'row',
+    justifyContent: 'flex-end', // Align to the end of the parent container
+  },
+  setsReps: {
+    alignItems: 'center',
+    marginLeft: 5, // Space between sets and reps inputs
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
     paddingHorizontal: 10,
+    paddingVertical: 5, // Adjust vertical padding for aesthetics
     backgroundColor: 'white',
   },
   textInput: {
-    height: 40,
-    marginBottom: 10,
-    flex: 1, // Adjusted for full width within its container
+    height: 35, // Adjust height for aesthetics
   },
   numericInput: {
-    height: 40,
-    width: '50%', // Adjusted for half width of its container
-    marginBottom: 10,
+    width: 50, // Set a fixed width for numeric inputs
+    textAlign: 'center', // Center the text inside the input
   },
   placeholder: {
     marginBottom: 5,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  nameContainer: {
-    flex: 0.7, // Takes up half of the space
-    paddingRight: 8, // Add some spacing
-  },
-  setsRepsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '25%', // Sets the width to be 1/4 of the parent container
-  },
-  setsReps: {
-    alignItems: 'center',
+    color: '#999', // Lighten the placeholder text color
   },
 });
+
 export default WorkoutInputCard;
