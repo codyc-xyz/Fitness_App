@@ -8,26 +8,46 @@ type WorkoutCardProps = {
 };
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({name, sets, reps}) => {
-  const [completedSets, setCompletedSets] = useState<Array<boolean>>(
-    new Array(sets).fill(false),
+  const initialSetState = {clicked: false, count: reps};
+  const [setDetails, setSetDetails] = useState(
+    new Array(sets).fill(initialSetState),
   );
 
   const toggleSetCompletion = (index: number) => {
-    const updatedSets = [...completedSets];
-    updatedSets[index] = !updatedSets[index];
-    setCompletedSets(updatedSets);
+    setSetDetails(
+      setDetails.map((set, i) => {
+        if (i === index) {
+          if (set.count === 0) {
+            return {...initialSetState, count: 5}; // Reset to 5 and unclicked state
+          } else {
+            return {
+              clicked: true,
+              count: set.clicked ? set.count - 1 : set.count,
+            };
+          }
+        }
+        return set;
+      }),
+    );
   };
 
   return (
     <View style={styles.card}>
       <Text style={styles.workoutHeader}>{`${name} ${sets}x${reps}`}</Text>
       <View style={styles.setsContainer}>
-        {completedSets.map((completed, index) => (
+        {setDetails.map((set, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.setCircle, completed ? styles.completedSet : null]}
+            style={[
+              styles.setCircle,
+              set.clicked
+                ? set.count < reps
+                  ? styles.yellowSet
+                  : styles.completedSet
+                : null,
+            ]}
             onPress={() => toggleSetCompletion(index)}>
-            <Text style={styles.setNumber}>{reps}</Text>
+            <Text style={styles.setNumber}>{set.count}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -68,6 +88,9 @@ const styles = StyleSheet.create({
   },
   setNumber: {
     fontSize: 16,
+  },
+  yellowSet: {
+    backgroundColor: 'yellow', // A pleasant shade of yellow
   },
 });
 
