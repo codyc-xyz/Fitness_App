@@ -8,8 +8,9 @@ const Main = () => {
   const [selectedDay, setSelectedDay] = useState('');
 
   useEffect(() => {
-    const today = new Date().getDay() - 1;
-    setSelectedDay(days[Math.max(0, today)]);
+    const today = new Date().getDay();
+    const adjustedDay = today === 0 ? 6 : today - 1;
+    setSelectedDay(days[adjustedDay]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
