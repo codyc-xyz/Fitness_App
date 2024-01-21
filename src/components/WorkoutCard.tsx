@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  Platform,
+} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 
 type WorkoutCardProps = {
   name: string;
@@ -18,6 +26,8 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   const [setDetails, setSetDetails] = useState(
     new Array(sets).fill(initialSetState),
   );
+  const [weight, setWeight] = useState('');
+  const [unit, setUnit] = useState('kg'); // default unit
 
   const toggleSetCompletion = (index: number) => {
     setSetDetails(
@@ -64,6 +74,23 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
           </TouchableOpacity>
         ))}
       </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setWeight}
+          value={weight}
+          placeholder="Weight"
+          keyboardType="numeric"
+        />
+        <Picker
+          selectedValue={unit}
+          onValueChange={itemValue => setUnit(itemValue)}
+          style={styles.picker}
+          mode="dropdown">
+          <Picker.Item label="kg" value="kg" />
+          <Picker.Item label="lb" value="lb" />
+        </Picker>
+      </View>
     </View>
   );
 };
@@ -109,11 +136,28 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    zIndex: 1, // to ensure it's above other elements
+    zIndex: 1,
   },
   removeButtonText: {
     fontWeight: 'bold',
     color: 'red',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    padding: 10,
+    marginRight: 10,
+    borderRadius: 4,
+  },
+  picker: {
+    flex: 1,
+    ...(Platform.OS === 'android' && {color: 'blue'}), // Optional styling for Android
   },
 });
 
