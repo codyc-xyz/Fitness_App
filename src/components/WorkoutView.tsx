@@ -23,7 +23,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
     if (db) {
       loadWorkoutsForDay(db, day, setWorkouts);
     }
-  }, [db, day, workouts]);
+  }, [db, day]);
 
   useEffect(() => {
     setWorkoutInputs([]);
@@ -72,6 +72,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
         if (!workouts.find(w => w.name === workout.name && w.day === day)) {
           addWorkout(db, workout.name, workout.sets, workout.reps, day);
           setWorkoutInputs([]);
+          loadWorkoutsForDay(db, day, setWorkouts);
         }
       });
     } else {
