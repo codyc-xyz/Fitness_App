@@ -13,7 +13,7 @@ type WorkoutViewProps = {
   day: string;
 };
 
-type Day = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat';
+type Day = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
 
 const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -22,13 +22,13 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   const db = useDatabase();
 
   const dayMapping: Record<Day, number> = {
-    Sun: 0,
-    Mon: 1,
-    Tue: 2,
-    Wed: 3,
-    Thu: 4,
-    Fri: 5,
-    Sat: 6,
+    Mon: 0,
+    Tue: 1,
+    Wed: 2,
+    Thu: 3,
+    Fri: 4,
+    Sat: 5,
+    Sun: 6,
   };
 
   useEffect(() => {
@@ -43,6 +43,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
 
   const getDateForDay = (dayString: Day) => {
     const dayOfWeek = dayMapping[dayString];
+    console.log(dayString, dayOfWeek);
     if (dayOfWeek === undefined) {
       throw new Error(`Invalid day string: ${dayString}`);
     }
