@@ -67,10 +67,11 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
         <TouchableOpacity style={styles.unitButton} onPress={toggleUnit}>
           <Text style={styles.unitText}>{unit.toUpperCase()}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
-          <Text style={styles.removeButtonText}>X</Text>
-        </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
+        <Text style={styles.removeButtonText}>X</Text>
+      </TouchableOpacity>
+
       <View style={styles.setsContainer}>
         {setDetails.map((set, index) => (
           <TouchableOpacity
@@ -109,13 +110,13 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 15,
   },
   workoutHeader: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginRight: 8,
   },
   setsContainer: {
     flexDirection: 'row',
@@ -144,6 +145,9 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     padding: 8,
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
   removeButtonText: {
     fontSize: 18,
@@ -155,7 +159,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 4,
     padding: 8,
-    minWidth: 80,
+    minWidth: 40,
     marginRight: 8,
     textAlign: 'center',
   },
