@@ -5,9 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  Platform,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 
 type WorkoutCardProps = {
   name: string;
@@ -27,7 +25,11 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     new Array(sets).fill(initialSetState),
   );
   const [weight, setWeight] = useState('');
-  const [unit, setUnit] = useState('kg'); // default unit
+  const [unit, setUnit] = useState('kg');
+
+  const toggleUnit = () => {
+    setUnit(prevUnit => (prevUnit === 'kg' ? 'lbs' : 'kg'));
+  };
 
   const toggleSetCompletion = (index: number) => {
     setSetDetails(
@@ -53,10 +55,22 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
 
   return (
     <View style={styles.card}>
-      <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
-        <Text style={styles.removeButtonText}>X</Text>
-      </TouchableOpacity>
-      <Text style={styles.workoutHeader}>{`${name} ${sets}x${reps}`}</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.workoutHeader}>{`${name} ${sets}x${reps}`}</Text>
+        <TextInput
+          style={styles.weightInput}
+          onChangeText={setWeight}
+          value={weight}
+          keyboardType="numeric"
+          placeholder="Weight"
+        />
+        <TouchableOpacity style={styles.unitButton} onPress={toggleUnit}>
+          <Text style={styles.unitText}>{unit.toUpperCase()}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
+          <Text style={styles.removeButtonText}>X</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.setsContainer}>
         {setDetails.map((set, index) => (
           <TouchableOpacity
@@ -67,29 +81,12 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
                 ? set.count < reps
                   ? styles.yellowSet
                   : styles.completedSet
-                : null,
+                : styles.incompleteSet,
             ]}
             onPress={() => toggleSetCompletion(index)}>
             <Text style={styles.setNumber}>{set.count}</Text>
           </TouchableOpacity>
         ))}
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setWeight}
-          value={weight}
-          placeholder="Weight"
-          keyboardType="numeric"
-        />
-        <Picker
-          selectedValue={unit}
-          onValueChange={itemValue => setUnit(itemValue)}
-          style={styles.picker}
-          mode="dropdown">
-          <Picker.Item label="kg" value="kg" />
-          <Picker.Item label="lb" value="lb" />
-        </Picker>
       </View>
     </View>
   );
@@ -99,15 +96,26 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 10,
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
+    backgroundColor: '#fff',
     borderRadius: 8,
-    backgroundColor: '#f8f8f8',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
   },
   workoutHeader: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   setsContainer: {
     flexDirection: 'row',
@@ -115,49 +123,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   setCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eee',
     margin: 5,
   },
   completedSet: {
     backgroundColor: 'lightgreen',
   },
+  incompleteSet: {
+    backgroundColor: '#eee',
+  },
   setNumber: {
-    fontSize: 16,
+    fontSize: 14,
   },
   yellowSet: {
     backgroundColor: 'yellow',
   },
   removeButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    zIndex: 1,
+    padding: 8,
   },
   removeButtonText: {
+    fontSize: 18,
     fontWeight: 'bold',
-    color: 'red',
+    color: '#333',
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  input: {
-    flex: 1,
+  weightInput: {
     borderWidth: 1,
     borderColor: '#ddd',
-    padding: 10,
-    marginRight: 10,
     borderRadius: 4,
+    padding: 8,
+    minWidth: 80,
+    marginRight: 8,
+    textAlign: 'center',
   },
-  picker: {
-    flex: 1,
-    ...(Platform.OS === 'android' && {color: 'blue'}), // Optional styling for Android
+  unitButton: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 4,
+    padding: 8,
+  },
+  unitText: {
+    fontWeight: 'bold',
   },
 });
 
