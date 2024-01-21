@@ -10,7 +10,6 @@ const Main = () => {
   useEffect(() => {
     const today = new Date().getDay();
     const adjustedDay = today === 0 ? 6 : today - 1;
-    console.log(adjustedDay);
     setSelectedDay(days[adjustedDay]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

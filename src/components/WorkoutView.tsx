@@ -43,7 +43,6 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
 
   const getDateForDay = (dayString: Day) => {
     const dayOfWeek = dayMapping[dayString];
-    console.log(dayString, dayOfWeek);
     if (dayOfWeek === undefined) {
       throw new Error(`Invalid day string: ${dayString}`);
     }
