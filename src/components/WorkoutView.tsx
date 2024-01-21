@@ -13,11 +13,23 @@ type WorkoutViewProps = {
   day: string;
 };
 
+type Day = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat';
+
 const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [workoutInputs, setWorkoutInputs] = useState<WorkoutInput[]>([]);
 
   const db = useDatabase();
+
+  const dayMapping: Record<Day, number> = {
+    Sun: 0,
+    Mon: 1,
+    Tue: 2,
+    Wed: 3,
+    Thu: 4,
+    Fri: 5,
+    Sat: 6,
+  };
 
   useEffect(() => {
     if (db) {
@@ -28,6 +40,26 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   useEffect(() => {
     setWorkoutInputs([]);
   }, [day]);
+
+  const getDateForDay = (dayString: Day) => {
+    const dayOfWeek = dayMapping[dayString];
+    if (dayOfWeek === undefined) {
+      throw new Error(`Invalid day string: ${dayString}`);
+    }
+
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay();
+    let distance = dayOfWeek - currentDay;
+
+    if (distance < 0) {
+      distance += 7;
+    }
+
+    currentDate.setDate(currentDate.getDate() + distance);
+    return currentDate.toISOString().split('T')[0];
+  };
+
+  const dateForDay = getDateForDay(day as Day);
 
   const addNewWorkoutInput = () => {
     if (workoutInputs.length < 10) {
@@ -91,6 +123,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
               sets={workout.sets}
               reps={workout.reps}
               workoutId={workout.id}
+              date={dateForDay}
               db={db}
               onRemove={() => handleRemoveWorkout(workout.name)}
             />

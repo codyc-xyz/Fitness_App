@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,14 @@ import {
 import recordProgress from '../database/recordProgress';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
 import {Ionicons} from '@expo/vector-icons';
+import getProgressForWorkout from '../database/getProgressForWorkout';
 
 type WorkoutCardProps = {
   name: string;
   sets: number;
   reps: number;
   workoutId: number;
+  date: string;
   db: SQLiteDatabase;
   onRemove: () => void;
 };
@@ -25,6 +27,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   reps,
   workoutId,
   db,
+  date,
   onRemove,
 }) => {
   const initialSetState = {clicked: false, count: reps};
@@ -34,6 +37,14 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   const [weight, setWeight] = useState('');
   const [unit, setUnit] = useState('kg');
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    getProgressForWorkout(db, workoutId, date, progressRecords => {
+      if (progressRecords.length > 0) {
+        setSubmitted(true);
+      }
+    });
+  }, [db, workoutId, date]);
 
   const handleSubmit = () => {
     const success = setDetails.every(set => set.count >= reps);
