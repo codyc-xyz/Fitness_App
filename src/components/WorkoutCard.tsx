@@ -131,10 +131,11 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
       <View style={styles.submitRow}>
         {!submitted ? (
           <TouchableOpacity
-            style={styles.submitButton}
+            style={
+              weight === '' ? styles.submitButtonDisabled : styles.submitButton
+            }
             onPress={handleSubmit}
-            disabled={weight === ''} // Disable button if weight is not entered
-          >
+            disabled={weight === ''}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
         ) : (
@@ -237,6 +238,11 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: '#FFF',
     fontWeight: 'bold',
+  },
+  submitButtonDisabled: {
+    padding: 8,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 4,
   },
   checkmarkContainer: {
     alignItems: 'center',
