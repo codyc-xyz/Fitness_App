@@ -110,9 +110,11 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Submit</Text>
-      </TouchableOpacity>
+      <View style={styles.submitRow}>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   completedSet: {
-    backgroundColor: 'lightgreen',
+    backgroundColor: '#4CAF50',
   },
   incompleteSet: {
     backgroundColor: '#eee',
@@ -195,11 +197,12 @@ const styles = StyleSheet.create({
   unitText: {
     fontWeight: 'bold',
   },
+  submitRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   submitButton: {
     padding: 8,
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
     backgroundColor: '#4CAF50',
     borderRadius: 4,
   },
