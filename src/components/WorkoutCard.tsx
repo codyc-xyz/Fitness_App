@@ -6,11 +6,15 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
+import recordProgress from '../database/recordProgress';
+import {SQLiteDatabase} from 'react-native-sqlite-storage';
 
 type WorkoutCardProps = {
   name: string;
   sets: number;
   reps: number;
+  workoutId: number;
+  db: SQLiteDatabase;
   onRemove: () => void;
 };
 
@@ -18,6 +22,8 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   name,
   sets,
   reps,
+  workoutId,
+  db,
   onRemove,
 }) => {
   const initialSetState = {clicked: false, count: reps};
@@ -26,6 +32,21 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   );
   const [weight, setWeight] = useState('');
   const [unit, setUnit] = useState('kg');
+
+  const handleSubmit = () => {
+    const success = setDetails.every(set => set.count >= reps);
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    recordProgress(
+      db,
+      workoutId,
+      currentDate,
+      parseFloat(weight),
+      unit,
+      setDetails,
+      success,
+    );
+  };
 
   const toggleUnit = () => {
     setUnit(prevUnit => (prevUnit === 'kg' ? 'lbs' : 'kg'));
@@ -89,6 +110,9 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
           </TouchableOpacity>
         ))}
       </View>
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+        <Text style={styles.submitButtonText}>Submit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -169,6 +193,18 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   unitText: {
+    fontWeight: 'bold',
+  },
+  submitButton: {
+    padding: 8,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#4CAF50',
+    borderRadius: 4,
+  },
+  submitButtonText: {
+    color: '#FFF',
     fontWeight: 'bold',
   },
 });

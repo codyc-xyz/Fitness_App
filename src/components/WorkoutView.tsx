@@ -83,15 +83,18 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   return (
     <ScrollView style={styles.container}>
       <View>
-        {workouts.map((workout, index) => (
-          <WorkoutCard
-            key={index}
-            name={workout.name}
-            sets={workout.sets}
-            reps={workout.reps}
-            onRemove={() => handleRemoveWorkout(workout.name)}
-          />
-        ))}
+        {db &&
+          workouts.map((workout, index) => (
+            <WorkoutCard
+              key={index}
+              name={workout.name}
+              sets={workout.sets}
+              reps={workout.reps}
+              workoutId={workout.id}
+              db={db}
+              onRemove={() => handleRemoveWorkout(workout.name)}
+            />
+          ))}
         {workoutInputs.map((workout, index) => (
           <WorkoutInputCard
             key={index}
