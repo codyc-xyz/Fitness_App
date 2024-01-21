@@ -13,7 +13,7 @@ const createTables = (db: SQLiteDatabase) => {
       },
     );
     tx.executeSql(
-      'CREATE TABLE IF NOT EXISTS progress (id INTEGER PRIMARY KEY AUTOINCREMENT, workout_id INTEGER, date TEXT, weight INTEGER, unit TEXT, success BOOLEAN, FOREIGN KEY(workout_id) REFERENCES workouts(id));',
+      'CREATE TABLE IF NOT EXISTS progress (id INTEGER PRIMARY KEY AUTOINCREMENT, workout_id INTEGER, date TEXT, weight INTEGER, unit TEXT, set_reps TEXT, success BOOLEAN, FOREIGN KEY(workout_id) REFERENCES workouts(id));',
       [],
       () => console.log('Progress table created'),
       (tx, error) => {

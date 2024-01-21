@@ -36,7 +36,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
       setDetails.map((set, i) => {
         if (i === index) {
           if (set.count === 0) {
-            return {...initialSetState, count: 5};
+            return {...initialSetState, count: reps};
           } else {
             return {
               clicked: true,

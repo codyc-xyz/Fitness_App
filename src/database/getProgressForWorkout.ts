@@ -23,11 +23,19 @@ const getProgressForWorkout: GetProgressForWorkoutFunction = (
       (tx, results: any) => {
         let progressRecords: ProgressRecord[] = [];
         for (let i = 0; i < results.rows.length; i++) {
-          progressRecords.push(results.rows.item(i));
+          let row = results.rows.item(i);
+
+          if (row.set_reps) {
+            row.set_reps = JSON.parse(row.set_reps);
+          } else {
+            row.set_reps = [];
+          }
+
+          progressRecords.push(row);
         }
         callback(progressRecords);
       },
-      (tx, error: SQLError) => console.log('Error: ' + error.message), // Corrected error callback
+      (tx, error: SQLError) => console.log('Error: ' + error.message),
     );
   });
 };
