@@ -46,7 +46,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     getProgressForWorkout(db, workoutId, date, progressRecords => {
       if (progressRecords.length > 0) {
         setSubmitted(true);
-        console.log(progressRecords[0]);
+
         const recordWeight = progressRecords[0].weight;
         setWeight(recordWeight.toString());
 
@@ -55,6 +55,9 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
           count: repCount,
         }));
         setSetDetails(newSetDetails);
+
+        const recordUnit = progressRecords[0].unit;
+        setUnit(recordUnit);
       }
     });
   }, [db, workoutId, date]);
