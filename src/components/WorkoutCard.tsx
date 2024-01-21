@@ -5,9 +5,15 @@ type WorkoutCardProps = {
   name: string;
   sets: number;
   reps: number;
+  onRemove: () => void;
 };
 
-const WorkoutCard: React.FC<WorkoutCardProps> = ({name, sets, reps}) => {
+const WorkoutCard: React.FC<WorkoutCardProps> = ({
+  name,
+  sets,
+  reps,
+  onRemove,
+}) => {
   const initialSetState = {clicked: false, count: reps};
   const [setDetails, setSetDetails] = useState(
     new Array(sets).fill(initialSetState),
@@ -31,8 +37,15 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({name, sets, reps}) => {
     );
   };
 
+  const handleRemove = () => {
+    onRemove();
+  };
+
   return (
     <View style={styles.card}>
+      <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
+        <Text style={styles.removeButtonText}>X</Text>
+      </TouchableOpacity>
       <Text style={styles.workoutHeader}>{`${name} ${sets}x${reps}`}</Text>
       <View style={styles.setsContainer}>
         {setDetails.map((set, index) => (
@@ -91,6 +104,16 @@ const styles = StyleSheet.create({
   },
   yellowSet: {
     backgroundColor: 'yellow',
+  },
+  removeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1, // to ensure it's above other elements
+  },
+  removeButtonText: {
+    fontWeight: 'bold',
+    color: 'red',
   },
 });
 

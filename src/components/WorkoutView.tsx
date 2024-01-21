@@ -7,6 +7,7 @@ import loadWorkoutsForDay from '../database/loadWorkoutsForDay';
 import addWorkout from '../database/addWorkouts';
 import WorkoutInputCard from './WorkoutInputCard';
 import WorkoutCard from './WorkoutCard';
+import removeWorkout from '../database/removeWorkout';
 
 type WorkoutViewProps = {
   day: string;
@@ -38,6 +39,19 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
     setWorkoutInputs(currentWorkouts => currentWorkouts.slice(0, -1));
   };
 
+  const handleRemoveWorkout = (name: string) => {
+    if (db) {
+      removeWorkout(db, name, day);
+      setWorkouts(currentWorkouts =>
+        currentWorkouts.filter(
+          workout => workout.name !== name || workout.day !== day,
+        ),
+      );
+    } else {
+      console.error('Database not initialized');
+    }
+  };
+
   const handleWorkoutChange = (
     index: number,
     field: keyof WorkoutInput,
@@ -57,6 +71,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
       workoutInputs.forEach(workout => {
         if (!workouts.find(w => w.name === workout.name && w.day === day)) {
           addWorkout(db, workout.name, workout.sets, workout.reps, day);
+          setWorkoutInputs([]);
         }
       });
     } else {
@@ -73,6 +88,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
             name={workout.name}
             sets={workout.sets}
             reps={workout.reps}
+            onRemove={() => handleRemoveWorkout(workout.name)}
           />
         ))}
         {workoutInputs.map((workout, index) => (
