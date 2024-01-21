@@ -132,7 +132,9 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
         {!submitted ? (
           <TouchableOpacity
             style={
-              weight === '' ? styles.submitButtonDisabled : styles.submitButton
+              weight === '' || setDetails.some(set => !set.clicked)
+                ? styles.submitButtonDisabled
+                : styles.submitButton
             }
             onPress={handleSubmit}
             disabled={weight === '' || setDetails.some(set => !set.clicked)}>
