@@ -7,7 +7,7 @@ interface ProgressRecord {
   date: string;
   weight: number;
   unit: string;
-  setDetails: SetDetail[];
+  set_reps: SetDetail[];
   success: boolean;
 }
 

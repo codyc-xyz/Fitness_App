@@ -46,6 +46,15 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     getProgressForWorkout(db, workoutId, date, progressRecords => {
       if (progressRecords.length > 0) {
         setSubmitted(true);
+        console.log(progressRecords[0]);
+        const recordWeight = progressRecords[0].weight;
+        setWeight(recordWeight.toString());
+
+        const newSetDetails = progressRecords[0].set_reps.map(repCount => ({
+          clicked: true,
+          count: repCount,
+        }));
+        setSetDetails(newSetDetails);
       }
     });
   }, [db, workoutId, date]);
