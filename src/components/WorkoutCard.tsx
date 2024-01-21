@@ -18,7 +18,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({name, sets, reps}) => {
       setDetails.map((set, i) => {
         if (i === index) {
           if (set.count === 0) {
-            return {...initialSetState, count: 5}; // Reset to 5 and unclicked state
+            return {...initialSetState, count: 5};
           } else {
             return {
               clicked: true,
@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   completedSet: {
-    backgroundColor: 'lightgreen', // A pleasant shade of green
+    backgroundColor: 'lightgreen',
   },
   setNumber: {
     fontSize: 16,
   },
   yellowSet: {
-    backgroundColor: 'yellow', // A pleasant shade of yellow
+    backgroundColor: 'yellow',
   },
 });
 
