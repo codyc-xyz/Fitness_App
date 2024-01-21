@@ -8,18 +8,20 @@ import ProgressRecord from '../types/ProgressRecord';
 type GetProgressForWorkoutFunction = (
   db: SQLiteDatabase,
   workout_id: number,
+  date: string,
   callback: (progressRecords: ProgressRecord[]) => void,
 ) => void;
 
 const getProgressForWorkout: GetProgressForWorkoutFunction = (
   db,
   workout_id,
+  date,
   callback,
 ) => {
   db.transaction((tx: Transaction) => {
     tx.executeSql(
-      'SELECT * FROM progress WHERE workout_id = ?;',
-      [workout_id],
+      'SELECT * FROM progress WHERE workout_id = ? AND date = ?;',
+      [workout_id, date],
       (tx, results: any) => {
         let progressRecords: ProgressRecord[] = [];
         for (let i = 0; i < results.rows.length; i++) {

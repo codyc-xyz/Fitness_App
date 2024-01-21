@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import recordProgress from '../database/recordProgress';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
+import {Ionicons} from '@expo/vector-icons';
 
 type WorkoutCardProps = {
   name: string;
@@ -32,6 +33,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   );
   const [weight, setWeight] = useState('');
   const [unit, setUnit] = useState('kg');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = () => {
     const success = setDetails.every(set => set.count >= reps);
@@ -46,6 +48,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
       setDetails,
       success,
     );
+    setSubmitted(true);
   };
 
   const toggleUnit = () => {
@@ -111,9 +114,19 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
         ))}
       </View>
       <View style={styles.submitRow}>
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>Submit</Text>
-        </TouchableOpacity>
+        {!submitted ? (
+          <TouchableOpacity
+            style={styles.submitButton}
+            onPress={handleSubmit}
+            disabled={weight === ''} // Disable button if weight is not entered
+          >
+            <Text style={styles.submitButtonText}>Submit</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.checkmarkContainer}>
+            <Ionicons name="checkmark-circle" size={32} color="green" />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -209,6 +222,10 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: '#FFF',
     fontWeight: 'bold',
+  },
+  checkmarkContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
