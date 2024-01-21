@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import getProgressForWorkout from '../database/getProgressForWorkout';
 
 const MyCheckmarkIcon = () => (
-  <Icon name="checkmark-circle" size={32} color="green" />
+  <Icon name="checkmark-circle" size={32} color="#4CAF50" />
 );
 
 type WorkoutCardProps = {
@@ -135,7 +135,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
               weight === '' ? styles.submitButtonDisabled : styles.submitButton
             }
             onPress={handleSubmit}
-            disabled={weight === ''}>
+            disabled={weight === '' || setDetails.some(set => !set.clicked)}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
         ) : (
