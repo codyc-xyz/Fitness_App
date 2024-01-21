@@ -8,8 +8,12 @@ import {
 } from 'react-native';
 import recordProgress from '../database/recordProgress';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
-import {Ionicons} from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import getProgressForWorkout from '../database/getProgressForWorkout';
+
+const MyCheckmarkIcon = () => (
+  <Icon name="checkmark-circle" size={32} color="green" />
+);
 
 type WorkoutCardProps = {
   name: string;
@@ -135,7 +139,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
           </TouchableOpacity>
         ) : (
           <View style={styles.checkmarkContainer}>
-            <Ionicons name="checkmark-circle" size={32} color="green" />
+            <MyCheckmarkIcon />
           </View>
         )}
       </View>
