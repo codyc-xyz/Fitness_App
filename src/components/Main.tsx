@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import * as React from 'react';
+import {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import HeaderBar from './HeaderBar';
 import WorkoutView from './WorkoutView';
@@ -13,7 +14,6 @@ const Main = () => {
     setSelectedDay(days[adjustedDay]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <View>
       <HeaderBar

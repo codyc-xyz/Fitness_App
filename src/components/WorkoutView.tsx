@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import * as React from 'react';
+import {useState, useEffect} from 'react';
 import {ScrollView, View, Button, StyleSheet} from 'react-native';
 import Workout from '../types/Workout';
 import WorkoutInput from '../types/WorkoutInput';
@@ -49,7 +50,9 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
 
     const currentDate = new Date();
     const currentDay = currentDate.getDay();
-    let distance = dayOfWeek - currentDay;
+    const adjustedCurrentDay = currentDay === 0 ? 6 : currentDay - 1;
+
+    let distance = dayOfWeek - adjustedCurrentDay;
 
     if (distance < 0) {
       distance += 7;

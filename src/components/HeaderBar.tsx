@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 interface HeaderBarProps {
@@ -12,6 +12,8 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   selectedDay,
   setSelectedDay,
 }) => {
+  console.log(selectedDay);
+  console.log(days);
   return (
     <View style={styles.headerBar}>
       {days.map(day => (

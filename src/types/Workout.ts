@@ -4,6 +4,7 @@ interface Workout {
   sets: number;
   reps: number;
   day: string;
+  submitted: boolean;
 }
 
 export default Workout;

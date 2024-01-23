@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import * as React from 'react';
+import {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -37,9 +38,9 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   const [weight, setWeight] = useState('');
   const [unit, setUnit] = useState('kg');
   const [submitted, setSubmitted] = useState(false);
-
   useEffect(() => {
     getProgressForWorkout(db, workoutId, date, progressRecords => {
+      console.log(progressRecords);
       if (progressRecords.length > 0) {
         setSubmitted(true);
 
@@ -151,7 +152,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
         ) : (
           <View style={styles.checkmarkContainer}>
             <Icon
-              name="checkmark-circle-outline"
+              name="check-circle-outline"
               size={32}
               type="Ionicons"
               color="#4CAF50"

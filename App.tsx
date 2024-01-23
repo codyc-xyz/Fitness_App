@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import Main from './src/components/Main';
 import {DatabaseProvider} from './src/contexts/DatabaseContext';
