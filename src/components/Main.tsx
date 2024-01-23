@@ -1,11 +1,15 @@
 import * as React from 'react';
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useCallback, useMemo} from 'react';
 import {View} from 'react-native';
 import HeaderBar from './HeaderBar';
 import WorkoutView from './WorkoutView';
 
 const Main = () => {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const days = useMemo(
+    () => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    [],
+  );
+
   const [selectedDay, setSelectedDay] = useState('');
   const [dayCompleted, setDayCompleted] = useState<Record<string, boolean>>({});
 
@@ -13,16 +17,21 @@ const Main = () => {
     const today = new Date().getDay();
     const adjustedDay = today === 0 ? 6 : today - 1;
     setSelectedDay(days[adjustedDay]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [days]);
 
   const handleDayCompletionChange = useCallback(
-    (day: string, completed: boolean) => {
+    (date: string, completed: boolean) => {
+      const dayOfWeek = new Date(date).getDay();
+      const dayName = days[dayOfWeek === 0 ? 6 : dayOfWeek - 1];
+
       setDayCompleted(prev => {
-        return prev[day] !== completed ? {...prev, [day]: completed} : prev;
+        if (prev[dayName] !== completed) {
+          return {...prev, [dayName]: completed};
+        }
+        return prev;
       });
     },
-    [],
+    [days],
   );
 
   return (
@@ -30,7 +39,7 @@ const Main = () => {
       <HeaderBar
         days={days}
         selectedDay={selectedDay}
-        dayCompleted={dayCompleted[selectedDay]}
+        dayCompleted={dayCompleted}
         setSelectedDay={setSelectedDay}
       />
       {selectedDay && (

@@ -4,7 +4,7 @@ import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 interface HeaderBarProps {
   days: string[];
   selectedDay: string;
-  dayCompleted: boolean;
+  dayCompleted: Record<string, boolean>;
   setSelectedDay: (day: string) => void;
 }
 
@@ -22,7 +22,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
           style={[
             styles.dayButton,
             selectedDay === day && styles.selectedDay,
-            dayCompleted && styles.greenBackground,
+            dayCompleted[day] && styles.greenBackground,
           ]}
           onPress={() => setSelectedDay(day)}>
           <Text style={styles.dayText}>{day}</Text>

@@ -49,6 +49,8 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     });
 
     getProgressForWorkout(db, workoutId, date, progressRecords => {
+      console.log(progressRecords);
+
       if (progressRecords.length > 0) {
         setSubmitted(true);
 
@@ -90,12 +92,11 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     if (newSubmittedStatus !== submitted) {
       setSubmitted(newSubmittedStatus);
     }
-    const currentDate = new Date().toISOString().split('T')[0];
 
     recordProgress(
       db,
       workoutId,
-      currentDate,
+      date,
       parseFloat(weight),
       unit,
       setDetails,
