@@ -19,6 +19,7 @@ type WorkoutCardProps = {
   workoutId: number;
   date: string;
   db: SQLiteDatabase;
+  onCompletionChange: (completed: boolean) => void;
   onRemove: () => void;
 };
 
@@ -29,6 +30,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   workoutId,
   db,
   date,
+  onCompletionChange,
   onRemove,
 }) => {
   const initialSetState = {clicked: false, count: reps};
@@ -40,7 +42,6 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   const [submitted, setSubmitted] = useState(false);
   useEffect(() => {
     getProgressForWorkout(db, workoutId, date, progressRecords => {
-      console.log(progressRecords);
       if (progressRecords.length > 0) {
         setSubmitted(true);
 
@@ -58,6 +59,10 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
       }
     });
   }, [db, workoutId, date]);
+
+  useEffect(() => {
+    onCompletionChange(submitted);
+  }, [submitted, onCompletionChange]);
 
   const handleSubmit = () => {
     const success = setDetails.every(set => set.count >= reps);

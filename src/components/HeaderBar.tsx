@@ -4,22 +4,26 @@ import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 interface HeaderBarProps {
   days: string[];
   selectedDay: string;
+  dayCompleted: boolean;
   setSelectedDay: (day: string) => void;
 }
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
   days,
   selectedDay,
+  dayCompleted,
   setSelectedDay,
 }) => {
-  console.log(selectedDay);
-  console.log(days);
   return (
     <View style={styles.headerBar}>
       {days.map(day => (
         <TouchableOpacity
           key={day}
-          style={[styles.dayButton, selectedDay === day && styles.selectedDay]}
+          style={[
+            styles.dayButton,
+            selectedDay === day && styles.selectedDay,
+            dayCompleted && styles.greenBackground,
+          ]}
           onPress={() => setSelectedDay(day)}>
           <Text style={styles.dayText}>{day}</Text>
         </TouchableOpacity>
@@ -48,6 +52,9 @@ const styles = StyleSheet.create({
   },
   selectedDay: {
     backgroundColor: '#E0E0E0',
+  },
+  greenBackground: {
+    backgroundColor: '#4CAF50',
   },
 });
 

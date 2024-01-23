@@ -12,13 +12,20 @@ import removeWorkout from '../database/removeWorkout';
 
 type WorkoutViewProps = {
   day: string;
+  onDayCompletionChange: (day: string, completed: boolean) => void; // Add this line
 };
 
 type Day = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
 
-const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
+const WorkoutView: React.FC<WorkoutViewProps> = ({
+  day,
+  onDayCompletionChange,
+}) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [workoutInputs, setWorkoutInputs] = useState<WorkoutInput[]>([]);
+  const [completedWorkouts, setCompletedWorkouts] = useState<
+    Record<string, boolean>
+  >({});
 
   const db = useDatabase();
 
@@ -41,6 +48,20 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   useEffect(() => {
     setWorkoutInputs([]);
   }, [day]);
+
+  useEffect(() => {
+    const allCompleted =
+      workouts.length > 0 &&
+      workouts.every(workout => completedWorkouts[workout.id]);
+    onDayCompletionChange(day, allCompleted);
+  }, [completedWorkouts, day, onDayCompletionChange, workouts]);
+
+  const handleWorkoutCompletionChange = (
+    workoutId: number,
+    completed: boolean,
+  ) => {
+    setCompletedWorkouts(prev => ({...prev, [workoutId]: completed}));
+  };
 
   const getDateForDay = (dayString: Day) => {
     const dayOfWeek = dayMapping[dayString];
@@ -128,6 +149,9 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
               workoutId={workout.id}
               date={dateForDay}
               db={db}
+              onCompletionChange={completed =>
+                handleWorkoutCompletionChange(workout.id, completed)
+              }
               onRemove={() => handleRemoveWorkout(workout.name)}
             />
           ))}
