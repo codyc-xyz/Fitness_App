@@ -18,10 +18,12 @@ const Main = () => {
 
   const handleDayCompletionChange = useCallback(
     (day: string, completed: boolean) => {
-      setDayCompleted(prev => ({...prev, [day]: completed}));
+      setDayCompleted(prev => {
+        return prev[day] !== completed ? {...prev, [day]: completed} : prev;
+      });
     },
     [],
-  ); // Empty dependency array means this is created only once
+  );
 
   return (
     <View>

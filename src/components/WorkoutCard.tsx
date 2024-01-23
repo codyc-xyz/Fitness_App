@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -33,6 +33,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   onCompletionChange,
   onRemove,
 }) => {
+  console.log('Rendering WorkoutCard', {name, sets, reps, workoutId, date});
   const initialSetState = {clicked: false, count: reps};
   const [setDetails, setSetDetails] = useState(
     new Array(sets).fill(initialSetState),
@@ -40,7 +41,13 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   const [weight, setWeight] = useState('');
   const [unit, setUnit] = useState('kg');
   const [submitted, setSubmitted] = useState(false);
+
   useEffect(() => {
+    console.log('useEffect triggered for getProgressForWorkout', {
+      workoutId,
+      date,
+    });
+
     getProgressForWorkout(db, workoutId, date, progressRecords => {
       if (progressRecords.length > 0) {
         setSubmitted(true);
@@ -60,12 +67,29 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     });
   }, [db, workoutId, date]);
 
+  const previousSubmittedStatus = useRef(submitted);
+
   useEffect(() => {
-    onCompletionChange(submitted);
+    console.log('useEffect triggered for onCompletionChange', {submitted});
+
+    if (submitted !== previousSubmittedStatus.current) {
+      onCompletionChange(submitted);
+    }
   }, [submitted, onCompletionChange]);
 
+  useEffect(() => {
+    previousSubmittedStatus.current = submitted;
+  }, [submitted]);
+
   const handleSubmit = () => {
+    console.log('handleSubmit called', {weight, unit, setDetails});
+
     const success = setDetails.every(set => set.count >= reps);
+    const newSubmittedStatus = success;
+
+    if (newSubmittedStatus !== submitted) {
+      setSubmitted(newSubmittedStatus);
+    }
     const currentDate = new Date().toISOString().split('T')[0];
 
     recordProgress(
@@ -85,6 +109,8 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   };
 
   const toggleSetCompletion = (index: number) => {
+    console.log('toggleSetCompletion called', {index});
+
     setSetDetails(
       setDetails.map((set, i) => {
         if (i === index) {
