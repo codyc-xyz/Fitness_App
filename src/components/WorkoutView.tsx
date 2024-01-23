@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {ScrollView, View, Button, StyleSheet} from 'react-native';
 import Workout from '../types/Workout';
 import WorkoutInput from '../types/WorkoutInput';
@@ -56,12 +56,12 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({
     onDayCompletionChange(day, allCompleted);
   }, [completedWorkouts, day, onDayCompletionChange, workouts]);
 
-  const handleWorkoutCompletionChange = (
-    workoutId: number,
-    completed: boolean,
-  ) => {
-    setCompletedWorkouts(prev => ({...prev, [workoutId]: completed}));
-  };
+  const handleWorkoutCompletionChange = useCallback(
+    (workoutId: number, completed: boolean) => {
+      setCompletedWorkouts(prev => ({...prev, [workoutId]: completed}));
+    },
+    [],
+  );
 
   const getDateForDay = (dayString: Day) => {
     const dayOfWeek = dayMapping[dayString];

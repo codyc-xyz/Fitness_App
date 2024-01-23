@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {View} from 'react-native';
 import HeaderBar from './HeaderBar';
 import WorkoutView from './WorkoutView';
@@ -16,9 +16,12 @@ const Main = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleDayCompletionChange = (day: string, completed: boolean) => {
-    setDayCompleted(prev => ({...prev, [day]: completed}));
-  };
+  const handleDayCompletionChange = useCallback(
+    (day: string, completed: boolean) => {
+      setDayCompleted(prev => ({...prev, [day]: completed}));
+    },
+    [],
+  ); // Empty dependency array means this is created only once
 
   return (
     <View>
