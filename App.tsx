@@ -1,22 +1,26 @@
 import * as React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import Main from './src/components/Main';
 import {DatabaseProvider} from './src/contexts/DatabaseContext';
 
-function App(): React.JSX.Element {
+function App(): React.ReactNode {
   return (
-    <DatabaseProvider>
-      <SafeAreaView style={styles.container}>
-        <Main />
-      </SafeAreaView>
-    </DatabaseProvider>
+    <SafeAreaProvider>
+      <DatabaseProvider>
+        <View style={styles.container}>
+          <SafeAreaView>
+            <Main />
+          </SafeAreaView>
+        </View>
+      </DatabaseProvider>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 8,
   },
 });
 

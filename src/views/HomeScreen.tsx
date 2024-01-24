@@ -1,9 +1,8 @@
 import * as React from 'react';
 import {useState, useEffect, useCallback, useMemo} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import WorkoutView from '../components/WorkoutView';
-import FooterBar from '../components/FooterBar';
 
 const HomeScreen = () => {
   const days = useMemo(
@@ -37,7 +36,7 @@ const HomeScreen = () => {
   );
 
   return (
-    <View>
+    <View style={styles.container}>
       <HeaderBar
         days={days}
         selectedDay={selectedDay}
@@ -52,9 +51,15 @@ const HomeScreen = () => {
           />
         )}
       </View>
-      <FooterBar />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: '89%',
+    marginHorizontal: 8,
+  },
+});
 
 export default HomeScreen;

@@ -2,12 +2,19 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import {Icon} from '@rneui/themed';
 import {useNavigate} from 'react-router-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const FooterBar: React.FC = () => {
+const NavBar: React.FC = () => {
   const navigate = useNavigate();
+  const insets = useSafeAreaInsets();
+
+  const containerStyle = {
+    ...styles.navContainer,
+    paddingBottom: insets.bottom,
+  };
 
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       <TouchableOpacity
         style={styles.iconContainer}
         onPress={() => navigate('/')}>
@@ -31,15 +38,22 @@ const FooterBar: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  navContainer: {
     flexDirection: 'row',
+    height: '10%',
     justifyContent: 'space-around',
     padding: 10,
     backgroundColor: '#f2f2f2',
+    paddingTop: 20,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
   },
   iconContainer: {
     alignItems: 'center',
   },
 });
 
-export default FooterBar;
+export default NavBar;
