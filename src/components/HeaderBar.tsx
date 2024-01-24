@@ -14,7 +14,6 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   dayCompleted,
   setSelectedDay,
 }) => {
-  console.log(dayCompleted);
   return (
     <View style={styles.headerBar}>
       {days.map(day => (

@@ -21,13 +21,9 @@ const Main = () => {
 
   const handleDayCompletionChange = useCallback(
     (date: string, completed: boolean) => {
-      console.log(date);
       const dayOfWeek = new Date(`${date}T12:00:00`).getDay();
-      console.log(dayOfWeek);
       const adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-      console.log(adjustedDay);
       const dayName = days[adjustedDay];
-      console.log(dayName, days, adjustedDay);
 
       setDayCompleted(prev => {
         if (prev[dayName] !== completed) {
