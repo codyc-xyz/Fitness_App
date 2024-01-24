@@ -8,7 +8,7 @@ const FooterBar: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigate('/home')}>
+      <TouchableOpacity onPress={() => navigate('/')}>
         <Icon name="home" type="material" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigate('/history')}>
