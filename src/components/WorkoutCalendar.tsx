@@ -21,6 +21,14 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
 }) => {
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
 
+  const getLocalMonthString = (): string => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() returns 0-11
+
+    return `${year}-${month.toString().padStart(2, '0')}`; // Format: YYYY-MM
+  };
+
   useEffect(() => {
     const loadWorkoutsForMonth = (month: string) => {
       checkWorkoutsForMonth(db, month, (daysWithWorkouts: string[]) => {
@@ -32,7 +40,7 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
       });
     };
 
-    const month = new Date().toISOString().slice(0, 7); // Format: YYYY-MM
+    const month = getLocalMonthString();
     loadWorkoutsForMonth(month);
   }, [db]);
 
