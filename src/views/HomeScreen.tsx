@@ -44,12 +44,14 @@ const HomeScreen = () => {
         dayCompleted={dayCompleted}
         setSelectedDay={setSelectedDay}
       />
-      {selectedDay && (
-        <WorkoutView
-          day={selectedDay}
-          onDayCompletionChange={handleDayCompletionChange}
-        />
-      )}
+      <View>
+        {selectedDay && (
+          <WorkoutView
+            day={selectedDay}
+            onDayCompletionChange={handleDayCompletionChange}
+          />
+        )}
+      </View>
       <FooterBar />
     </View>
   );
