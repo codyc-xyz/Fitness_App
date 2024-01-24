@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface HeaderBarProps {
   days: string[];
@@ -14,8 +15,15 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   dayCompleted,
   setSelectedDay,
 }) => {
+  const insets = useSafeAreaInsets();
+
+  const headerStyle = {
+    ...styles.headerBar,
+    paddingTop: insets.top,
+  };
+
   return (
-    <View style={styles.headerBar}>
+    <View style={headerStyle}>
       {days.map(day => (
         <TouchableOpacity
           key={day}

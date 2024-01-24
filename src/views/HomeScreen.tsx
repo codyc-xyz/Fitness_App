@@ -57,7 +57,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: '89%',
+    height: '90%',
     marginHorizontal: 8,
   },
 });
