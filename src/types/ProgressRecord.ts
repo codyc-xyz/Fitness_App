@@ -4,6 +4,9 @@ export type SetDetail = {
 
 interface ProgressRecord {
   workout_id: number;
+  name: string;
+  sets: number;
+  reps: number;
   date: string;
   weight: number;
   unit: string;

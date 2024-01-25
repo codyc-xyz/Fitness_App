@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import WorkoutCalendar from '../components/WorkoutCalendar';
-import {useDatabase} from '../contexts/DatabaseContext'; // Import your useDatabase hook
+import {useDatabase} from '../contexts/DatabaseContext';
 import Workout from '../types/Workout';
 import fetchWorkoutsForDate from '../database/fetchWorkoutsForDate';
 import WorkoutCard from '../components/WorkoutCard';
@@ -19,7 +19,6 @@ const HistoryScreen: React.FC = () => {
       });
     }
   };
-  console.log(workouts);
 
   return (
     <View style={styles.container}>

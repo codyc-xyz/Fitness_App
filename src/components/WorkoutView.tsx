@@ -74,6 +74,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({
     let distance = dayOfWeek - adjustedCurrentDay;
 
     currentDate.setDate(currentDate.getDate() + distance);
+    console.log(currentDate.getDate());
     return (
       currentDate.getFullYear() +
       '-' +
