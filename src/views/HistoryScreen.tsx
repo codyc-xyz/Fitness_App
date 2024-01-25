@@ -19,6 +19,7 @@ const HistoryScreen: React.FC = () => {
       });
     }
   };
+  console.log(workouts);
 
   return (
     <View style={styles.container}>
@@ -45,6 +46,7 @@ const HistoryScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 12,
+    height: '90%',
   },
 });
 
