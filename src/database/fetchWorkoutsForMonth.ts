@@ -17,7 +17,7 @@ const checkWorkoutsForMonth: CheckWorkoutsForMonthFunction = (
 ) => {
   db.transaction((tx: Transaction) => {
     tx.executeSql(
-      'SELECT DISTINCT date FROM workouts WHERE date LIKE ?;',
+      'SELECT DISTINCT date FROM progress WHERE date LIKE ?;',
       [`${month}%`],
       (tx, results: any) => {
         let daysWithWorkouts: string[] = [];

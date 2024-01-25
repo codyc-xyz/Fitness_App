@@ -19,8 +19,8 @@ type WorkoutCardProps = {
   workoutId: number;
   date: string;
   db: SQLiteDatabase;
-  onCompletionChange: (completed: boolean) => void;
-  onRemove: () => void;
+  onCompletionChange?: (completed: boolean) => void;
+  onRemove?: () => void;
 };
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({
@@ -74,7 +74,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   useEffect(() => {
     console.log('useEffect triggered for onCompletionChange', {submitted});
 
-    if (submitted !== previousSubmittedStatus.current) {
+    if (submitted !== previousSubmittedStatus.current && onCompletionChange) {
       onCompletionChange(submitted);
     }
   }, [submitted, onCompletionChange]);
@@ -130,7 +130,9 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   };
 
   const handleRemove = () => {
-    onRemove();
+    if (onRemove) {
+      onRemove();
+    }
   };
 
   return (

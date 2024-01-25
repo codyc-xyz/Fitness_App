@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10,
     backgroundColor: '#f2f2f2',
-    paddingTop: 20,
+    paddingTop: 10,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
