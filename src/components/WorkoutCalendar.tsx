@@ -24,9 +24,9 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
   const getLocalMonthString = (): string => {
     const date = new Date();
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // getMonth() returns 0-11
+    const month = date.getMonth() + 1;
 
-    return `${year}-${month.toString().padStart(2, '0')}`; // Format: YYYY-MM
+    return `${year}-${month.toString().padStart(2, '0')}`;
   };
 
   useEffect(() => {
