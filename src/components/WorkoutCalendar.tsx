@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Calendar, DateData} from 'react-native-calendars';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
 import checkWorkoutsForMonth from '../database/fetchWorkoutsForMonth';
+import {StyleSheet} from 'react-native';
 
 interface WorkoutCalendarProps {
   db: SQLiteDatabase;
@@ -19,6 +21,7 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
   db,
   onDaySelected,
 }) => {
+  const insets = useSafeAreaInsets();
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
 
   const getLocalMonthString = (): string => {
@@ -50,7 +53,17 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
     }
   };
 
-  return <Calendar onDayPress={onDayPress} markedDates={markedDates} />;
+  const calendarStyle = {
+    paddingTop: insets.top,
+  };
+
+  return (
+    <Calendar
+      onDayPress={onDayPress}
+      markedDates={markedDates}
+      style={calendarStyle}
+    />
+  );
 };
 
 export default WorkoutCalendar;
