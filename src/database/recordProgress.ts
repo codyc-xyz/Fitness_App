@@ -8,6 +8,9 @@ import {SetDetail} from '../types/ProgressRecord';
 type RecordProgressFunction = (
   db: SQLiteDatabase,
   workout_id: number,
+  name: string,
+  sets: number,
+  reps: number,
   date: string,
   weight: number,
   unit: string,

@@ -96,6 +96,9 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     recordProgress(
       db,
       workoutId,
+      name,
+      sets,
+      reps,
       date,
       parseFloat(weight),
       unit,

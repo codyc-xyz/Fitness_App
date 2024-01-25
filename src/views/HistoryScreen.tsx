@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import WorkoutCalendar from '../components/WorkoutCalendar';
 import {useDatabase} from '../contexts/DatabaseContext'; // Import your useDatabase hook
 import Workout from '../types/Workout';
@@ -25,7 +25,7 @@ const HistoryScreen: React.FC = () => {
     <View style={styles.container}>
       {db && <WorkoutCalendar db={db} onDaySelected={onDaySelected} />}
       {selectedDay && db && (
-        <View>
+        <ScrollView>
           {workouts.map((workout, index) => (
             <WorkoutCard
               key={index}
@@ -37,7 +37,7 @@ const HistoryScreen: React.FC = () => {
               db={db}
             />
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );
