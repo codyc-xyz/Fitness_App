@@ -49,7 +49,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     });
 
     getProgressForWorkout(db, workoutId, date, progressRecords => {
-      console.log(progressRecords);
+      console.log(`progressRecords: ${progressRecords}`);
 
       if (progressRecords.length > 0) {
         setSubmitted(true);
