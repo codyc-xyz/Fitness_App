@@ -3,7 +3,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Calendar, DateData} from 'react-native-calendars';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
 import checkWorkoutsForMonth from '../database/fetchWorkoutsForMonth';
-import {StyleSheet} from 'react-native';
 
 interface WorkoutCalendarProps {
   db: SQLiteDatabase;

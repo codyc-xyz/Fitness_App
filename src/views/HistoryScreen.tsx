@@ -45,7 +45,7 @@ const HistoryScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 12,
+    marginHorizontal: 8,
     height: '90%',
   },
 });
