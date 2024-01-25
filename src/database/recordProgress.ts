@@ -21,6 +21,9 @@ type RecordProgressFunction = (
 const recordProgress: RecordProgressFunction = (
   db,
   workout_id,
+  name,
+  sets,
+  reps,
   date,
   weight,
   unit,
@@ -31,8 +34,18 @@ const recordProgress: RecordProgressFunction = (
 
   db.transaction((tx: Transaction) => {
     tx.executeSql(
-      'INSERT INTO progress (workout_id, date, weight, unit, set_reps, success) VALUES (?, ?, ?, ?, ?, ?);',
-      [workout_id, date, weight, unit, setRepsString, success],
+      'INSERT INTO progress (workout_id, name, sets, reps, date, weight, unit, set_reps, success) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);',
+      [
+        workout_id,
+        name,
+        sets,
+        reps,
+        date,
+        weight,
+        unit,
+        setRepsString,
+        success,
+      ],
       (tx, results: any) => console.log('Progress recorded', results),
       (tx, error: SQLError) => console.log('Error: ' + error.message),
     );
