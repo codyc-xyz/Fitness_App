@@ -5,16 +5,21 @@ import {
 } from 'react-native-sqlite-storage';
 import Workout from '../types/Workout';
 
-type LoadWorkoutsForDayFunction = (
+type FetchWorkoutsForDateFunction = (
   db: SQLiteDatabase,
   date: string,
-  setWorkouts: (workouts: Workout[]) => void,
+  setWorkouts?: (workouts: Workout[]) => void,
+  onDayCompletionChange?: (
+    date: string | Date | number,
+    allCompleted: boolean,
+  ) => void,
 ) => void;
 
-const loadWorkoutsForDay: LoadWorkoutsForDayFunction = (
+const fetchWorkoutsForDate: FetchWorkoutsForDateFunction = (
   db,
   date,
   setWorkouts,
+  onDayCompletionChange,
 ) => {
   db.transaction((tx: Transaction) => {
     tx.executeSql(
@@ -25,11 +30,16 @@ const loadWorkoutsForDay: LoadWorkoutsForDayFunction = (
         for (let i = 0; i < results.rows.length; ++i) {
           workouts.push(results.rows.item(i));
         }
-        setWorkouts(workouts);
+        if (setWorkouts) {
+          setWorkouts(workouts);
+        }
+        if (onDayCompletionChange) {
+          onDayCompletionChange(date, workouts.length > 0);
+        }
       },
       (tx, error: SQLError) => console.log('Error: ' + error.message),
     );
   });
 };
 
-export default loadWorkoutsForDay;
+export default fetchWorkoutsForDate;

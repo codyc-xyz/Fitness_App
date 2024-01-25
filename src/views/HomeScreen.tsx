@@ -43,14 +43,7 @@ const HomeScreen = () => {
         dayCompleted={dayCompleted}
         setSelectedDay={setSelectedDay}
       />
-      <View>
-        {selectedDay && (
-          <WorkoutView
-            day={selectedDay}
-            onDayCompletionChange={handleDayCompletionChange}
-          />
-        )}
-      </View>
+      <View>{selectedDay && <WorkoutView day={selectedDay} />}</View>
     </View>
   );
 };

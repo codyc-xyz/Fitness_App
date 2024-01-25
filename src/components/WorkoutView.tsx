@@ -12,20 +12,14 @@ import removeWorkout from '../database/removeWorkout';
 
 type WorkoutViewProps = {
   day: string;
-  onDayCompletionChange: (day: string, completed: boolean) => void;
 };
 
 type Day = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
 
-const WorkoutView: React.FC<WorkoutViewProps> = ({
-  day,
-  onDayCompletionChange,
-}) => {
+const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [workoutInputs, setWorkoutInputs] = useState<WorkoutInput[]>([]);
-  const [completedWorkouts, setCompletedWorkouts] = useState<
-    Record<string, boolean>
-  >({});
+  const [, setCompletedWorkouts] = useState<Record<string, boolean>>({});
 
   const db = useDatabase();
 
@@ -74,7 +68,6 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({
     let distance = dayOfWeek - adjustedCurrentDay;
 
     currentDate.setDate(currentDate.getDate() + distance);
-    console.log(currentDate.getDate());
     return (
       currentDate.getFullYear() +
       '-' +
@@ -85,13 +78,6 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({
   };
 
   const dateForDay = getDateForDay(day as Day);
-
-  useEffect(() => {
-    const allCompleted =
-      workouts.length > 0 &&
-      workouts.every(workout => completedWorkouts[workout.id]);
-    onDayCompletionChange(dateForDay, allCompleted);
-  }, [completedWorkouts, dateForDay, onDayCompletionChange, workouts]);
 
   const addNewWorkoutInput = () => {
     if (workoutInputs.length < 10) {

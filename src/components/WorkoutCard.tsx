@@ -33,7 +33,6 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   onCompletionChange,
   onRemove,
 }) => {
-  console.log('Rendering WorkoutCard', {name, sets, reps, workoutId, date});
   const initialSetState = {clicked: false, count: reps};
   const [setDetails, setSetDetails] = useState(
     new Array(sets).fill(initialSetState),
