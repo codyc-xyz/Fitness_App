@@ -23,6 +23,7 @@ const checkWorkoutsForMonth: CheckWorkoutsForMonthFunction = (
         let daysWithWorkouts: string[] = [];
         for (let i = 0; i < results.rows.length; ++i) {
           daysWithWorkouts.push(results.rows.item(i).date);
+          console.log(daysWithWorkouts);
         }
         setDaysWithWorkouts(daysWithWorkouts);
       },

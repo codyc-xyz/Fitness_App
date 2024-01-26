@@ -21,9 +21,13 @@ const checkWorkoutsForWeek = (
       (tx, results: any) => {
         let daysCompleted: Record<string, boolean> = {};
         for (let i = 0; i < results.rows.length; ++i) {
-          const date = new Date(results.rows.item(i).date);
-          const dayOfWeek = (date.getDay() + 6) % 7;
+          const dateString = results.rows.item(i).date;
+          const date = new Date(dateString);
+
+          const dayOfWeek = date.getDay();
+
           const dayName = days[dayOfWeek];
+
           daysCompleted[dayName] = true;
         }
         setDayCompleted(daysCompleted);

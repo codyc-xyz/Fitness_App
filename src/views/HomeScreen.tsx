@@ -31,18 +31,26 @@ const HomeScreen = () => {
     const lastDayOfWeek = new Date(firstDayOfWeek);
     lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
 
-    const startOfWeek = firstDayOfWeek.toLocaleDateString('en-CA');
-    const endOfWeek = lastDayOfWeek.toLocaleDateString('en-CA');
+    const formatToISO = (date: Date) => {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    const startOfWeek = formatToISO(firstDayOfWeek);
+    const endOfWeek = formatToISO(lastDayOfWeek);
 
     return {startOfWeek, endOfWeek};
   };
+
   useEffect(() => {
     const {startOfWeek, endOfWeek} = getWeekStartAndEnd();
     if (db) {
       checkWorkoutsForWeek(db, startOfWeek, endOfWeek, setDayCompleted);
     }
-  }, [db]);
-
+  }, [db, selectedDay]);
+  console.log(`dayCompleted: ${JSON.stringify(dayCompleted, null, 2)}`);
   return (
     <View style={styles.container}>
       <HeaderBar
