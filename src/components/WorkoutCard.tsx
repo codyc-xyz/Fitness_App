@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import recordProgress from '../database/recordProgress';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
-import {Icon} from '@rneui/themed';
+import {Icon, Overlay} from '@rneui/themed';
 import getProgressForWorkout from '../database/getProgressForWorkout';
 
 type WorkoutCardProps = {
@@ -40,16 +41,16 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   const [weight, setWeight] = useState('');
   const [unit, setUnit] = useState('kg');
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     console.log('useEffect triggered for getProgressForWorkout', {
       workoutId,
       date,
     });
 
     getProgressForWorkout(db, workoutId, date, progressRecords => {
-      console.log(`progressRecords: ${progressRecords}`);
-
       if (progressRecords.length > 0) {
         setSubmitted(true);
 
@@ -65,6 +66,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
         const recordUnit = progressRecords[0].unit;
         setUnit(recordUnit);
       }
+      setIsLoading(false);
     });
   }, [db, workoutId, date]);
 
@@ -136,71 +138,84 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
       onRemove();
     }
   };
-
   return (
     <View style={styles.card}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.workoutHeader}>{`${name} ${sets}x${reps}`}</Text>
-        <TextInput
-          style={styles.weightInput}
-          onChangeText={setWeight}
-          value={weight}
-          keyboardType="numeric"
-          placeholder="Weight"
-        />
-        <TouchableOpacity style={styles.unitButton} onPress={toggleUnit}>
-          <Text style={styles.unitText}>{unit.toUpperCase()}</Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
-        <Text style={styles.removeButtonText}>X</Text>
-      </TouchableOpacity>
-
-      <View style={styles.setsContainer}>
-        {setDetails.map((set, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.setCircle,
-              set.clicked
-                ? set.count < reps
-                  ? styles.yellowSet
-                  : styles.completedSet
-                : styles.incompleteSet,
-            ]}
-            onPress={() => toggleSetCompletion(index)}>
-            <Text style={styles.setNumber}>{set.count}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <View style={styles.submitRow}>
-        {!submitted ? (
-          <TouchableOpacity
-            style={
-              weight === '' || setDetails.some(set => !set.clicked)
-                ? styles.submitButtonDisabled
-                : styles.submitButton
-            }
-            onPress={handleSubmit}
-            disabled={weight === '' || setDetails.some(set => !set.clicked)}>
-            <Text style={styles.submitButtonText}>Submit</Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.checkmarkContainer}>
-            <Icon
-              name="check-circle-outline"
-              size={32}
-              type="Ionicons"
-              color="#4CAF50"
+      {isLoading ? (
+        <Overlay isVisible={true} overlayStyle={styles.overlay}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </Overlay>
+      ) : (
+        <View>
+          <View style={styles.headerContainer}>
+            <Text
+              style={styles.workoutHeader}>{`${name} ${sets}x${reps}`}</Text>
+            <TextInput
+              style={styles.weightInput}
+              onChangeText={setWeight}
+              value={weight}
+              keyboardType="numeric"
+              placeholder="Weight"
             />
+            <TouchableOpacity style={styles.unitButton} onPress={toggleUnit}>
+              <Text style={styles.unitText}>{unit.toUpperCase()}</Text>
+            </TouchableOpacity>
           </View>
-        )}
-      </View>
+          <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
+            <Text style={styles.removeButtonText}>X</Text>
+          </TouchableOpacity>
+
+          <View style={styles.setsContainer}>
+            {setDetails.map((set, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.setCircle,
+                  set.clicked
+                    ? set.count < reps
+                      ? styles.yellowSet
+                      : styles.completedSet
+                    : styles.incompleteSet,
+                ]}
+                onPress={() => toggleSetCompletion(index)}>
+                <Text style={styles.setNumber}>{set.count}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={styles.submitRow}>
+            {!submitted ? (
+              <TouchableOpacity
+                style={
+                  weight === '' || setDetails.some(set => !set.clicked)
+                    ? styles.submitButtonDisabled
+                    : styles.submitButton
+                }
+                onPress={handleSubmit}
+                disabled={
+                  weight === '' || setDetails.some(set => !set.clicked)
+                }>
+                <Text style={styles.submitButtonText}>Submit</Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.checkmarkContainer}>
+                <Icon
+                  name="check-circle-outline"
+                  size={32}
+                  type="Ionicons"
+                  color="#4CAF50"
+                />
+              </View>
+            )}
+          </View>
+        </View>
+      )}
     </View>
   );
 };
-
 const styles = StyleSheet.create({
+  overlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 10,
+  },
   card: {
     marginBottom: 10,
     padding: 10,

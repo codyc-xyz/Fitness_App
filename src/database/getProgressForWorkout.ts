@@ -32,7 +32,6 @@ const getProgressForWorkout: GetProgressForWorkoutFunction = (
           } else {
             row.set_reps = [];
           }
-          console.log(`row: ${row}`);
           progressRecords.push(row);
         }
         callback(progressRecords);
