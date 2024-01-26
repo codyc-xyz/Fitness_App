@@ -4,6 +4,7 @@ import {StyleSheet, View} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import WorkoutView from '../components/WorkoutView';
 import {useDatabase} from '../contexts/DatabaseContext';
+import checkWorkoutsForWeek from '../database/checkWorkoutsForWeek';
 
 const HomeScreen = () => {
   const db = useDatabase();
@@ -37,7 +38,9 @@ const HomeScreen = () => {
   };
   useEffect(() => {
     const {startOfWeek, endOfWeek} = getWeekStartAndEnd();
-    checkWorkoutsForWeek(db, startOfWeek, endOfWeek, setDayCompleted);
+    if (db) {
+      checkWorkoutsForWeek(db, startOfWeek, endOfWeek, setDayCompleted);
+    }
   }, [db]);
 
   return (

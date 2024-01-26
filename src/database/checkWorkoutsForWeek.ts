@@ -1,9 +1,7 @@
-// Import or define the types for your database and transaction
 import {
   SQLiteDatabase,
   SQLError,
   Transaction,
-  ResultSet,
 } from 'react-native-sqlite-storage';
 
 type SetDayCompletedFunction = (daysCompleted: Record<string, boolean>) => void;
@@ -20,7 +18,7 @@ const checkWorkoutsForWeek = (
     tx.executeSql(
       'SELECT DISTINCT date FROM progress WHERE date BETWEEN ? AND ?;',
       [startDate, endDate],
-      (tx: Transaction, results: ResultSet) => {
+      (tx, results: any) => {
         let daysCompleted: Record<string, boolean> = {};
         for (let i = 0; i < results.rows.length; ++i) {
           const date = new Date(results.rows.item(i).date);
@@ -30,8 +28,7 @@ const checkWorkoutsForWeek = (
         }
         setDayCompleted(daysCompleted);
       },
-      (tx: Transaction, error: SQLError) =>
-        console.log('Error: ' + error.message),
+      (tx, error: SQLError) => console.log('Error: ' + error.message),
     );
   });
 };
