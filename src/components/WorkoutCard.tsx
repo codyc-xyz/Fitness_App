@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  ActivityIndicator,
 } from 'react-native';
+import Spinner from 'react-native-spinkit';
 import recordProgress from '../database/recordProgress';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
 import {Icon, Overlay} from '@rneui/themed';
@@ -142,7 +142,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     <View style={styles.card}>
       {isLoading ? (
         <Overlay isVisible={true} overlayStyle={styles.overlay}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <Spinner type="ChasingDots" color="#0000ff" size={50} />
         </Overlay>
       ) : (
         <View>
