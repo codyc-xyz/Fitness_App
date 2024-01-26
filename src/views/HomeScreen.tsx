@@ -1,10 +1,12 @@
 import * as React from 'react';
-import {useState, useEffect, useCallback, useMemo} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import HeaderBar from '../components/HeaderBar';
 import WorkoutView from '../components/WorkoutView';
+import {useDatabase} from '../contexts/DatabaseContext';
 
 const HomeScreen = () => {
+  const db = useDatabase();
   const days = useMemo(
     () => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     [],
@@ -19,21 +21,24 @@ const HomeScreen = () => {
     setSelectedDay(days[adjustedDay]);
   }, [days]);
 
-  const handleDayCompletionChange = useCallback(
-    (date: string, completed: boolean) => {
-      const dayOfWeek = new Date(`${date}T12:00:00`).getDay();
-      const adjustedDay = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-      const dayName = days[adjustedDay];
+  const getWeekStartAndEnd = () => {
+    const currentDate = new Date();
+    const dayOfWeek = (currentDate.getDay() + 6) % 7;
+    const firstDayOfWeek = new Date(currentDate);
+    firstDayOfWeek.setDate(currentDate.getDate() - dayOfWeek);
 
-      setDayCompleted(prev => {
-        if (prev[dayName] !== completed) {
-          return {...prev, [dayName]: completed};
-        }
-        return prev;
-      });
-    },
-    [days],
-  );
+    const lastDayOfWeek = new Date(firstDayOfWeek);
+    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+
+    const startOfWeek = firstDayOfWeek.toLocaleDateString('en-CA');
+    const endOfWeek = lastDayOfWeek.toLocaleDateString('en-CA');
+
+    return {startOfWeek, endOfWeek};
+  };
+  useEffect(() => {
+    const {startOfWeek, endOfWeek} = getWeekStartAndEnd();
+    checkWorkoutsForWeek(db, startOfWeek, endOfWeek, setDayCompleted);
+  }, [db]);
 
   return (
     <View style={styles.container}>

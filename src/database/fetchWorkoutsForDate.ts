@@ -8,18 +8,13 @@ import Workout from '../types/Workout';
 type FetchWorkoutsForDateFunction = (
   db: SQLiteDatabase,
   date: string,
-  setWorkouts?: (workouts: Workout[]) => void,
-  onDayCompletionChange?: (
-    date: string | Date | number,
-    allCompleted: boolean,
-  ) => void,
+  setWorkouts: (workouts: Workout[]) => void,
 ) => void;
 
 const fetchWorkoutsForDate: FetchWorkoutsForDateFunction = (
   db,
   date,
   setWorkouts,
-  onDayCompletionChange,
 ) => {
   db.transaction((tx: Transaction) => {
     tx.executeSql(
@@ -30,12 +25,7 @@ const fetchWorkoutsForDate: FetchWorkoutsForDateFunction = (
         for (let i = 0; i < results.rows.length; ++i) {
           workouts.push(results.rows.item(i));
         }
-        if (setWorkouts) {
-          setWorkouts(workouts);
-        }
-        if (onDayCompletionChange) {
-          onDayCompletionChange(date, workouts.length > 0);
-        }
+        setWorkouts(workouts);
       },
       (tx, error: SQLError) => console.log('Error: ' + error.message),
     );
