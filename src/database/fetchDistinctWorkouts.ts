@@ -16,7 +16,7 @@ const fetchDistinctWorkouts: FetchDistinctWorkoutsFunction = (
 ) => {
   db.transaction((tx: Transaction) => {
     tx.executeSql(
-      'SELECT name, sets, reps FROM progress GROUP BY name, sets, reps;',
+      'SELECT name, sets, reps FROM progress GROUP BY name, sets, reps ORDER BY name;',
       [],
       (tx, results: any) => {
         let distinctWorkouts = [];
