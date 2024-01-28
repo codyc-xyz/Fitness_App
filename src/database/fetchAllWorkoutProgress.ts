@@ -3,14 +3,14 @@ import {
   SQLError,
   Transaction,
 } from 'react-native-sqlite-storage';
-import ProgressRecord from '../types/ProgressRecord';
+import WorkoutProgressRecord from '../types/WorkoutProgressRecord';
 
 type FetchAllWorkoutProgressFunction = (
   db: SQLiteDatabase,
   name: string,
   sets: number,
   reps: number,
-  setWorkoutProgress: (workoutProgress: ProgressRecord[]) => void,
+  setWorkoutProgress: (workoutProgress: WorkoutProgressRecord[]) => void,
 ) => void;
 
 const fetchAllWorkoutProgress: FetchAllWorkoutProgressFunction = (
