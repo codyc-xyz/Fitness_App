@@ -79,9 +79,16 @@ const ProgressScreen: React.FC = () => {
             key={index}
             style={styles.card}
             onPress={() => onCardPress(workout)}>
-            <Text style={styles.cardText}>
-              {workout.name} - {workout.sets}x{workout.reps}
-            </Text>
+            <View style={styles.buttonView}>
+              <Text style={styles.cardText}>
+                {workout.name} - {workout.sets}x{workout.reps}
+              </Text>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => onDeletePress(workout)}>
+                <Text style={styles.deleteButtonText}>X</Text>
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         ))}
         {selectedWorkout && <WorkoutGraph data={workoutProgress} />}
@@ -102,7 +109,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 10,
   },
-
+  deleteButton: {
+    padding: 10,
+  },
+  deleteButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  buttonView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   card: {
     backgroundColor: '#fff',
     margin: 10,
