@@ -1,6 +1,12 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  View,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDatabase} from '../contexts/DatabaseContext';
 import fetchDistinctWorkouts from '../database/fetchDistinctWorkouts';
@@ -48,27 +54,37 @@ const ProgressScreen: React.FC = () => {
 
   return (
     <View style={containerStyle}>
-      {distinctWorkouts.map((workout, index) => (
-        <TouchableOpacity
-          key={index}
-          style={styles.card}
-          onPress={() => onCardPress(workout)}>
-          <Text style={styles.cardText}>
-            {workout.name} - {workout.sets}x{workout.reps}
-          </Text>
-        </TouchableOpacity>
-      ))}
-      {selectedWorkout && <WorkoutGraph data={workoutProgress} />}
+      <Text style={styles.title}>Completed Workouts</Text>
+      <ScrollView>
+        {distinctWorkouts.map((workout, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.card}
+            onPress={() => onCardPress(workout)}>
+            <Text style={styles.cardText}>
+              {workout.name} - {workout.sets}x{workout.reps}
+            </Text>
+          </TouchableOpacity>
+        ))}
+        {selectedWorkout && <WorkoutGraph data={workoutProgress} />}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
     height: '90%',
+    marginHorizontal: 8,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+
   card: {
     backgroundColor: '#fff',
     margin: 10,
@@ -79,7 +95,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    width: '100%',
   },
   cardText: {
     fontSize: 16,
