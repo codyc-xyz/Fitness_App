@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import {NativeRouter, Route, Routes} from 'react-router-native';
 import HomeScreen from '../views/HomeScreen';
 import HistoryScreen from '../views/HistoryScreen';
+import ProgressScreen from '../views/ProgressScreen';
 import FooterBar from './FooterBar';
 const Main = () => {
   return (
@@ -11,7 +12,7 @@ const Main = () => {
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/history" element={<HistoryScreen />} />
-          {/*<Route path="/progress" element={<ProgressScreen />} /> */}
+          <Route path="/progress" element={<ProgressScreen />} />
         </Routes>
         <FooterBar />
       </NativeRouter>
