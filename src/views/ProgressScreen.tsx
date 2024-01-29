@@ -11,6 +11,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDatabase} from '../contexts/DatabaseContext';
 import fetchDistinctWorkouts from '../database/fetchDistinctWorkouts';
 import fetchAllWorkoutProgress from '../database/fetchAllWorkoutProgress';
+import removeWorkoutProgress from '../database/removeWorkoutProgress';
 import DistinctWorkoutRecord from '../types/DistinctWorkoutRecord';
 import WorkoutProgressRecord from '../types/WorkoutProgressRecord';
 import WorkoutGraph from '../components/WorkoutGraph';
@@ -48,6 +49,23 @@ const ProgressScreen: React.FC = () => {
         workout.sets,
         workout.reps,
         setWorkoutProgress,
+      );
+    }
+  };
+
+  const onDeletePress = (workout: DistinctWorkoutRecord) => {
+    if (db) {
+      removeWorkoutProgress(
+        db,
+        workout.name,
+        workout.sets,
+        workout.reps,
+        () => {
+          fetchDistinctWorkouts(db, setDistinctWorkouts);
+        },
+        error => {
+          console.error('Delete error:', error.message);
+        },
       );
     }
   };
