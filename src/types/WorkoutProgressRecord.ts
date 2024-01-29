@@ -4,6 +4,7 @@ type WorkoutProgressRecord = {
   reps: number;
   weight: number;
   date: string;
+  unit: string;
   success: boolean;
 };
 

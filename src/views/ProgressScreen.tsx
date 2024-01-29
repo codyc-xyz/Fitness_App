@@ -5,6 +5,7 @@ import fetchDistinctWorkouts from '../database/fetchDistinctWorkouts';
 import fetchAllWorkoutProgress from '../database/fetchAllWorkoutProgress';
 import DistinctWorkoutRecord from '../types/DistinctWorkoutRecord';
 import WorkoutProgressRecord from '../types/WorkoutProgressRecord';
+import WorkoutGraph from '../components/WorkoutGraph';
 
 const ProgressScreen: React.FC = () => {
   const db = useDatabase();
