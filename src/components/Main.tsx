@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {View} from 'react-native';
 import {NativeRouter, Route, Routes} from 'react-router-native';
 import HomeScreen from '../views/HomeScreen';

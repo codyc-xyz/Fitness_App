@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import {Icon} from '@rneui/themed';
 import {useNavigate} from 'react-router-native';

@@ -22,7 +22,7 @@ const fetchAllWorkoutProgress: FetchAllWorkoutProgressFunction = (
 ) => {
   db.transaction((tx: Transaction) => {
     tx.executeSql(
-      'SELECT weight, date, unit, success FROM progress WHERE name = ? AND sets = ? AND reps = ? AND unit = ?;',
+      'SELECT weight, date, unit, success FROM progress WHERE name = ? AND sets = ? AND reps = ?;',
       [name, sets, reps],
       (tx, results: any) => {
         let workoutProgress = [];

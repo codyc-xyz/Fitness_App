@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {LineChart} from 'react-native-chart-kit';
 import {Dimensions, View} from 'react-native';
 import WorkoutProgressRecord from '../types/WorkoutProgressRecord';

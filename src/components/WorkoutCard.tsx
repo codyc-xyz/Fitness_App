@@ -20,8 +20,8 @@ type WorkoutCardProps = {
   workoutId: number;
   date: string;
   db: SQLiteDatabase;
-  onCompletionChange?: (completed: boolean) => void;
-  onRemove?: () => void;
+  onCompletionChange: (completed: boolean) => void;
+  onRemove: () => void;
 };
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({

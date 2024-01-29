@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import * as React from 'react';
+import {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDatabase} from '../contexts/DatabaseContext';
 import fetchDistinctWorkouts from '../database/fetchDistinctWorkouts';
 import fetchAllWorkoutProgress from '../database/fetchAllWorkoutProgress';
@@ -17,6 +19,13 @@ const ProgressScreen: React.FC = () => {
   const [workoutProgress, setWorkoutProgress] = useState<
     WorkoutProgressRecord[]
   >([]);
+
+  const insets = useSafeAreaInsets();
+
+  const containerStyle = {
+    ...styles.container,
+    paddingTop: insets.top,
+  };
 
   useEffect(() => {
     if (db) {
@@ -38,7 +47,7 @@ const ProgressScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       {distinctWorkouts.map((workout, index) => (
         <TouchableOpacity
           key={index}
@@ -56,10 +65,9 @@ const ProgressScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
+    height: '90%',
   },
   card: {
     backgroundColor: '#fff',
@@ -71,6 +79,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    width: '100%',
   },
   cardText: {
     fontSize: 16,
