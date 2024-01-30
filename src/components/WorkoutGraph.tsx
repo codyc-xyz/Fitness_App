@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {LineChart} from 'react-native-chart-kit';
-import {Dimensions, View} from 'react-native';
+import {Dimensions, View, Text, ViewStyle} from 'react-native';
 import WorkoutProgressRecord from '../types/WorkoutProgressRecord';
 
 interface WorkoutGraphProps {
@@ -14,6 +14,16 @@ interface DataSet {
 }
 
 const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
+  console.log('Initial data:', data);
+
+  if (data.length === 0) {
+    return (
+      <View style={noDataStyles}>
+        <Text>No workout data to display.</Text>
+      </View>
+    );
+  }
+
   const convertWeight = (
     weight: number,
     unit: string,
@@ -37,7 +47,7 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
 
   const mostRecentUnit = getMostRecentUnit(data);
 
-  const createDatasets = (data: any[]) => {
+  const createDatasets = data => {
     const datasets = [];
     let currentDataset: DataSet = {
       data: [],
@@ -45,6 +55,13 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
       strokeWidth: 2,
     };
     data.forEach((item: {weight: number; unit: string}, index: number) => {
+      const convertedWeight = convertWeight(
+        item.weight,
+        item.unit,
+        mostRecentUnit,
+      );
+      console.log(`Converted weight for item ${index}:`, convertedWeight);
+
       if (index > 0) {
         const color = data[index - 1].success ? 'green' : 'red';
         currentDataset.color = (opacity = 1) =>
@@ -58,6 +75,8 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
         index < data.length - 1 &&
         data[index].success !== data[index + 1].success
       ) {
+        console.log('Current dataset before push:', currentDataset);
+
         datasets.push(currentDataset);
         currentDataset = {
           data: [],
@@ -72,24 +91,30 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
     return datasets;
   };
 
+  const datasets = createDatasets(data);
+  console.log('Final datasets:', datasets);
+
   const chartData = {
     labels: data.map(d => d.date),
-    datasets: createDatasets(data),
+    datasets: datasets,
   };
+  console.log('Chart data:', chartData);
 
   return (
     <View>
-      <LineChart
-        data={chartData}
-        width={screenWidth}
-        height={chartHeight}
-        yAxisLabel={''}
-        yAxisSuffix={mostRecentUnit}
-        yAxisInterval={1}
-        chartConfig={chartStyle}
-        bezier
-        style={chartMarginBorder}
-      />
+      {chartData && (
+        <LineChart
+          data={chartData}
+          width={screenWidth}
+          height={chartHeight}
+          yAxisLabel={''}
+          yAxisSuffix={mostRecentUnit}
+          yAxisInterval={1}
+          chartConfig={chartStyle}
+          bezier
+          style={chartMarginBorder}
+        />
+      )}
     </View>
   );
 };
@@ -118,5 +143,11 @@ const chartMarginBorder = {
 
 const screenWidth = Dimensions.get('window').width;
 const chartHeight = screenWidth / 2;
+
+const noDataStyles: ViewStyle = {
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: chartHeight,
+};
 
 export default WorkoutGraph;

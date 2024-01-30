@@ -70,6 +70,7 @@ const ProgressScreen: React.FC = () => {
       );
     }
   };
+  console.log(workoutProgress);
 
   return (
     <View style={containerStyle}>
