@@ -141,7 +141,7 @@ const chartMarginBorder = {
   borderRadius: 16,
 };
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get('window').width - 16;
 const chartHeight = screenWidth / 2;
 
 const noDataStyles: ViewStyle = {
