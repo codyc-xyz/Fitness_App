@@ -41,17 +41,25 @@ const ProgressScreen: React.FC = () => {
   }, [db]);
 
   const onCardPress = (workout: DistinctWorkoutRecord) => {
-    if (db) {
-      setSelectedWorkout(workout);
-      fetchAllWorkoutProgress(
-        db,
-        workout.name,
-        workout.sets,
-        workout.reps,
-        setWorkoutProgress,
-      );
+    if (
+      selectedWorkout &&
+      workout.name === selectedWorkout.name &&
+      workout.sets === selectedWorkout.sets &&
+      workout.reps === selectedWorkout.reps
+    ) {
+      setSelectedWorkout(null);
+    } else {
+      if (db) {
+        setSelectedWorkout(workout);
+        fetchAllWorkoutProgress(
+          db,
+          workout.name,
+          workout.sets,
+          workout.reps,
+          setWorkoutProgress,
+        );
+      }
     }
-    console.log(workoutProgress);
   };
 
   const onDeletePress = (workout: DistinctWorkoutRecord) => {
@@ -63,6 +71,14 @@ const ProgressScreen: React.FC = () => {
         workout.reps,
         () => {
           fetchDistinctWorkouts(db, setDistinctWorkouts);
+          if (
+            selectedWorkout &&
+            workout.name === selectedWorkout.name &&
+            workout.sets === selectedWorkout.sets &&
+            workout.reps === selectedWorkout.reps
+          ) {
+            setSelectedWorkout(null);
+          }
         },
         error => {
           console.error('Delete error:', error.message);
@@ -70,35 +86,40 @@ const ProgressScreen: React.FC = () => {
       );
     }
   };
-  console.log(workoutProgress);
 
   return (
     <View style={containerStyle}>
       <Text style={styles.title}>Completed Workouts</Text>
       <ScrollView>
         {distinctWorkouts.map((workout, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.card}
-            onPress={() => onCardPress(workout)}>
-            <View style={styles.buttonView}>
-              <Text style={styles.cardText}>
-                {workout.name} - {workout.sets}x{workout.reps}
-              </Text>
-              <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => onDeletePress(workout)}>
-                <Text style={styles.deleteButtonText}>X</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+          <React.Fragment
+            key={workout.name + workout.sets + workout.reps + index}>
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => onCardPress(workout)}>
+              <View style={styles.buttonView}>
+                <Text style={styles.cardText}>
+                  {workout.name} - {workout.sets}x{workout.reps}
+                </Text>
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => onDeletePress(workout)}>
+                  <Text style={styles.deleteButtonText}>X</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+            {selectedWorkout &&
+              workout.name === selectedWorkout.name &&
+              workout.sets === selectedWorkout.sets &&
+              workout.reps === selectedWorkout.reps && (
+                <WorkoutGraph data={workoutProgress} />
+              )}
+          </React.Fragment>
         ))}
-        {selectedWorkout && <WorkoutGraph data={workoutProgress} />}
       </ScrollView>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     height: '90%',
