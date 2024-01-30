@@ -51,6 +51,7 @@ const ProgressScreen: React.FC = () => {
         setWorkoutProgress,
       );
     }
+    console.log(workoutProgress);
   };
 
   const onDeletePress = (workout: DistinctWorkoutRecord) => {

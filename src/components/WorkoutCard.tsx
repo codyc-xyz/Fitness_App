@@ -73,15 +73,16 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
   const previousSubmittedStatus = useRef(submitted);
 
   useEffect(() => {
+    previousSubmittedStatus.current = submitted;
+  }, [submitted]);
+
+  useEffect(() => {
     console.log('useEffect triggered for onCompletionChange', {submitted});
 
     if (submitted !== previousSubmittedStatus.current && onCompletionChange) {
       onCompletionChange(submitted);
     }
-  }, [submitted, onCompletionChange]);
-
-  useEffect(() => {
-    previousSubmittedStatus.current = submitted;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 
   const handleSubmit = () => {

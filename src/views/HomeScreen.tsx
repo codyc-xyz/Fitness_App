@@ -12,12 +12,12 @@ const HomeScreen = () => {
     () => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     [],
   );
-
   const [selectedDay, setSelectedDay] = useState('');
   const [dayCompleted, setDayCompleted] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const today = new Date().getDay();
+    console.log(today);
     const adjustedDay = today === 0 ? 6 : today - 1;
     setSelectedDay(days[adjustedDay]);
   }, [days]);
@@ -50,7 +50,6 @@ const HomeScreen = () => {
       checkWorkoutsForWeek(db, startOfWeek, endOfWeek, setDayCompleted);
     }
   }, [db, selectedDay]);
-  console.log(`dayCompleted: ${JSON.stringify(dayCompleted, null, 2)}`);
   return (
     <View style={styles.container}>
       <HeaderBar

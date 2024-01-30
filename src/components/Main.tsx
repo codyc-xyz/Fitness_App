@@ -5,6 +5,7 @@ import HomeScreen from '../views/HomeScreen';
 import HistoryScreen from '../views/HistoryScreen';
 import ProgressScreen from '../views/ProgressScreen';
 import FooterBar from './FooterBar';
+
 const Main = () => {
   return (
     <View>

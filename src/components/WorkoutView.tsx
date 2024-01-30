@@ -134,9 +134,9 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
     <ScrollView style={styles.container}>
       <View>
         {db &&
-          workouts.map((workout, index) => (
+          workouts.map(workout => (
             <WorkoutCard
-              key={index}
+              key={`${workout.id}-${day}`}
               name={workout.name}
               sets={workout.sets}
               reps={workout.reps}
