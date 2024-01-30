@@ -158,6 +158,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
               value={weight}
               keyboardType="numeric"
               placeholder="Weight"
+              editable={typeof onCompletionChange === 'function'}
             />
             <TouchableOpacity style={styles.unitButton} onPress={toggleUnit}>
               <Text style={styles.unitText}>{unit.toUpperCase()}</Text>
