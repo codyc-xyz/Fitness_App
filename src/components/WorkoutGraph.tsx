@@ -24,6 +24,8 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
     );
   }
 
+  data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
   const convertWeight = (
     weight: number,
     unit: string,
@@ -47,58 +49,21 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
 
   const mostRecentUnit = getMostRecentUnit(data);
 
-  const createDatasets = data => {
-    const datasets = [];
-    let currentDataset: DataSet = {
-      data: [],
-      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+  const createDatasets = (data): DataSet[] => {
+    const dataset: DataSet = {
+      data: data.map(item =>
+        convertWeight(item.weight, item.unit, mostRecentUnit),
+      ),
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
       strokeWidth: 2,
     };
-    data.forEach((item: {weight: number; unit: string}, index: number) => {
-      const convertedWeight = convertWeight(
-        item.weight,
-        item.unit,
-        mostRecentUnit,
-      );
-      console.log(`Converted weight for item ${index}:`, convertedWeight);
-
-      if (index > 0) {
-        const color = data[index - 1].success ? 'green' : 'red';
-        currentDataset.color = (opacity = 1) =>
-          `rgba(${color === 'green' ? '0, 128, 0' : '255, 0, 0'}, ${opacity})`;
-      }
-      currentDataset.data.push(
-        convertWeight(item.weight, item.unit, mostRecentUnit),
-      );
-
-      if (
-        index < data.length - 1 &&
-        data[index].success !== data[index + 1].success
-      ) {
-        console.log('Current dataset before push:', currentDataset);
-
-        datasets.push(currentDataset);
-        currentDataset = {
-          data: [],
-          color: currentDataset.color,
-          strokeWidth: 2,
-        };
-      }
-    });
-
-    datasets.push(currentDataset);
-
-    return datasets;
+    return [dataset];
   };
-
-  const datasets = createDatasets(data);
-  console.log('Final datasets:', datasets);
-
   const chartData = {
     labels: data.map(d => d.date),
-    datasets: datasets,
+    datasets: createDatasets(data),
   };
-  console.log('Chart data:', chartData);
+  console.log('Chart data:', chartData.datasets);
 
   return (
     <View>
