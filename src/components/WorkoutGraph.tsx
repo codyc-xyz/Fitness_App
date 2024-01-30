@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {LineChart} from 'react-native-chart-kit';
-import {Dimensions, View, Text, ViewStyle, StyleSheet} from 'react-native';
+import {Dimensions, View, Text, StyleSheet} from 'react-native';
 import WorkoutProgressRecord from '../types/WorkoutProgressRecord';
 
 interface WorkoutGraphProps {
@@ -72,8 +72,8 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
           data={chartData}
           width={screenWidth}
           height={chartHeight}
-          yAxisLabel={''}
-          yAxisSuffix={mostRecentUnit}
+          yAxisLabel={'  '}
+          yAxisSuffix={` ${mostRecentUnit}`}
           yAxisInterval={1}
           chartConfig={chartStyle}
           bezier
@@ -88,7 +88,7 @@ const chartStyle = {
   backgroundColor: '#ffffff',
   backgroundGradientFrom: '#ffffff',
   backgroundGradientTo: '#ffffff',
-  decimalPlaces: 2,
+  decimalPlaces: 0,
   color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   style: {
@@ -101,14 +101,13 @@ const chartStyle = {
   },
 };
 
-const screenWidth = Dimensions.get('window').width - 32;
+const screenWidth = Dimensions.get('window').width - 40;
 const chartHeight = screenWidth / 2;
 
 const styles = StyleSheet.create({
   chartContainer: {
-    marginVertical: 16,
     borderRadius: 8,
-    padding: 8,
+    padding: 16,
     backgroundColor: '#f0f0f0',
     shadowColor: '#000000',
     shadowOffset: {width: 0, height: 2},
