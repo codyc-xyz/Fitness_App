@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import * as React from 'react';
+import {useState, useEffect} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Calendar, DateData} from 'react-native-calendars';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';

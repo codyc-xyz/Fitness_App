@@ -20,8 +20,8 @@ type WorkoutCardProps = {
   workoutId: number;
   date: string;
   db: SQLiteDatabase;
-  onCompletionChange: (completed: boolean) => void;
-  onRemove: () => void;
+  onCompletionChange?: (completed: boolean) => void;
+  onRemove?: () => void;
 };
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({
@@ -51,6 +51,8 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
     });
 
     getProgressForWorkout(db, workoutId, date, progressRecords => {
+      console.log(workoutId, date);
+      console.log(progressRecords[0]);
       if (progressRecords.length > 0) {
         setSubmitted(true);
 
@@ -161,9 +163,13 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
               <Text style={styles.unitText}>{unit.toUpperCase()}</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
-            <Text style={styles.removeButtonText}>X</Text>
-          </TouchableOpacity>
+          {onRemove && (
+            <TouchableOpacity
+              style={styles.removeButton}
+              onPress={handleRemove}>
+              <Text style={styles.removeButtonText}>X</Text>
+            </TouchableOpacity>
+          )}
 
           <View style={styles.setsContainer}>
             {setDetails.map((set, index) => (
@@ -182,31 +188,33 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({
               </TouchableOpacity>
             ))}
           </View>
-          <View style={styles.submitRow}>
-            {!submitted ? (
-              <TouchableOpacity
-                style={
-                  weight === '' || setDetails.some(set => !set.clicked)
-                    ? styles.submitButtonDisabled
-                    : styles.submitButton
-                }
-                onPress={handleSubmit}
-                disabled={
-                  weight === '' || setDetails.some(set => !set.clicked)
-                }>
-                <Text style={styles.submitButtonText}>Submit</Text>
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.checkmarkContainer}>
-                <Icon
-                  name="check-circle-outline"
-                  size={32}
-                  type="Ionicons"
-                  color="#4CAF50"
-                />
-              </View>
-            )}
-          </View>
+          {onCompletionChange && (
+            <View style={styles.submitRow}>
+              {!submitted ? (
+                <TouchableOpacity
+                  style={
+                    weight === '' || setDetails.some(set => !set.clicked)
+                      ? styles.submitButtonDisabled
+                      : styles.submitButton
+                  }
+                  onPress={handleSubmit}
+                  disabled={
+                    weight === '' || setDetails.some(set => !set.clicked)
+                  }>
+                  <Text style={styles.submitButtonText}>Submit</Text>
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.checkmarkContainer}>
+                  <Icon
+                    name="check-circle-outline"
+                    size={32}
+                    type="Ionicons"
+                    color="#4CAF50"
+                  />
+                </View>
+              )}
+            </View>
+          )}
         </View>
       )}
     </View>

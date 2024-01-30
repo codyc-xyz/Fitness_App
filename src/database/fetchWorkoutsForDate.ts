@@ -3,12 +3,12 @@ import {
   SQLError,
   Transaction,
 } from 'react-native-sqlite-storage';
-import Workout from '../types/Workout';
+import ProgressRecord from '../types/Workout';
 
 type FetchWorkoutsForDateFunction = (
   db: SQLiteDatabase,
   date: string,
-  setWorkouts: (workouts: Workout[]) => void,
+  setWorkouts: (workouts: ProgressRecord[]) => void,
 ) => void;
 
 const fetchWorkoutsForDate: FetchWorkoutsForDateFunction = (
@@ -21,7 +21,7 @@ const fetchWorkoutsForDate: FetchWorkoutsForDateFunction = (
       'SELECT * FROM progress WHERE date = ?;',
       [date],
       (tx, results: any) => {
-        let workouts: Workout[] = [];
+        let workouts: ProgressRecord[] = [];
         for (let i = 0; i < results.rows.length; ++i) {
           workouts.push(results.rows.item(i));
         }
