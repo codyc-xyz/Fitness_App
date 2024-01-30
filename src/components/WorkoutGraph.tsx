@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {LineChart} from 'react-native-chart-kit';
-import {Dimensions, View, Text, ViewStyle} from 'react-native';
+import {Dimensions, View, Text, ViewStyle, StyleSheet} from 'react-native';
 import WorkoutProgressRecord from '../types/WorkoutProgressRecord';
 
 interface WorkoutGraphProps {
@@ -18,8 +18,8 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
 
   if (data.length === 0) {
     return (
-      <View style={noDataStyles}>
-        <Text>No workout data to display.</Text>
+      <View style={styles.noDataContainer}>
+        <Text style={styles.noDataText}>No workout data to display.</Text>
       </View>
     );
   }
@@ -66,7 +66,7 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
   console.log('Chart data:', chartData.datasets);
 
   return (
-    <View>
+    <View style={styles.chartContainer}>
       {chartData && (
         <LineChart
           data={chartData}
@@ -77,7 +77,7 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
           yAxisInterval={1}
           chartConfig={chartStyle}
           bezier
-          style={chartMarginBorder}
+          style={{borderRadius: styles.chartContainer.borderRadius}}
         />
       )}
     </View>
@@ -85,34 +85,47 @@ const WorkoutGraph: React.FC<WorkoutGraphProps> = ({data}) => {
 };
 
 const chartStyle = {
-  backgroundColor: '#e26a00',
-  backgroundGradientFrom: '#fb8c00',
-  backgroundGradientTo: '#ffa726',
+  backgroundColor: '#ffffff',
+  backgroundGradientFrom: '#ffffff',
+  backgroundGradientTo: '#ffffff',
   decimalPlaces: 2,
-  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   style: {
-    borderRadius: 16,
+    borderRadius: 8,
   },
   propsForDots: {
-    r: '6',
+    r: '4',
     strokeWidth: '2',
-    stroke: '#ffa726',
+    stroke: '#000000',
   },
 };
 
-const chartMarginBorder = {
-  marginVertical: 8,
-  borderRadius: 16,
-};
-
-const screenWidth = Dimensions.get('window').width - 16;
+const screenWidth = Dimensions.get('window').width - 32;
 const chartHeight = screenWidth / 2;
 
-const noDataStyles: ViewStyle = {
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: chartHeight,
-};
+const styles = StyleSheet.create({
+  chartContainer: {
+    marginVertical: 16,
+    borderRadius: 8,
+    padding: 8,
+    backgroundColor: '#f0f0f0',
+    shadowColor: '#000000',
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 4,
+    shadowOpacity: 0.1,
+    elevation: 2,
+  },
+  noDataContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: chartHeight,
+    backgroundColor: '#f0f0f0',
+  },
+  noDataText: {
+    color: '#606060',
+    fontFamily: 'Arial',
+  },
+});
 
 export default WorkoutGraph;
