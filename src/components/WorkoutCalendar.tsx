@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Calendar, DateData} from 'react-native-calendars';
 import {SQLiteDatabase} from 'react-native-sqlite-storage';
@@ -24,16 +24,8 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
   const insets = useSafeAreaInsets();
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
 
-  const getLocalMonthString = (): string => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-
-    return `${year}-${month.toString().padStart(2, '0')}`;
-  };
-
-  useEffect(() => {
-    const loadWorkoutsForMonth = (month: string) => {
+  const loadWorkoutsForMonth = useCallback(
+    (month: string) => {
       checkWorkoutsForMonth(db, month, (daysWithWorkouts: string[]) => {
         const marked: MarkedDates = {};
         daysWithWorkouts.forEach(day => {
@@ -41,11 +33,27 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
         });
         setMarkedDates(marked);
       });
-    };
+    },
+    [db],
+  );
 
-    const month = getLocalMonthString();
-    loadWorkoutsForMonth(month);
-  }, [db]);
+  useEffect(() => {
+    const currentMonth = getMonthString(new Date());
+    loadWorkoutsForMonth(currentMonth);
+  }, [loadWorkoutsForMonth]);
+
+  const getMonthString = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    return `${year}-${month.toString().padStart(2, '0')}`;
+  };
+
+  const onMonthChange = (monthData: {month: number; year: number}) => {
+    const monthString = `${monthData.year}-${monthData.month
+      .toString()
+      .padStart(2, '0')}`;
+    loadWorkoutsForMonth(monthString);
+  };
 
   const onDayPress = (day: DateData) => {
     if (markedDates[day.dateString]) {
@@ -62,6 +70,7 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
       onDayPress={onDayPress}
       markedDates={markedDates}
       style={calendarStyle}
+      onMonthChange={onMonthChange}
     />
   );
 };
