@@ -169,6 +169,7 @@ const WorkoutView: React.FC<WorkoutViewProps> = ({day}) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 12,
+    height: '85%',
   },
 });
 
